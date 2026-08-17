@@ -119,7 +119,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
     <>
       <div className="flex h-16 items-center gap-2.5 border-b border-slate-800 px-6">
         <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-sm font-extrabold text-white shadow-md shadow-emerald-900/40">
-          IZ
+          MF
         </div>
         <div className="leading-tight">
           <p className="text-base font-bold text-white">MedinaFacture</p>

@@ -15,7 +15,7 @@ export default function AuthLayout({
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center justify-center gap-2.5">
           <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-sm font-extrabold text-white shadow-md shadow-emerald-900/20">
-            IZ
+            MF
           </div>
           <div className="leading-tight">
             <p className="text-lg font-bold text-slate-900 dark:text-slate-100">MedinaFacture</p>
