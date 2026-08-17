@@ -156,20 +156,20 @@ export function InvoicePreview({
               <dd className="font-semibold text-slate-800 dark:text-slate-200">{number}</dd>
             </div>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">{t("clientForm.email")}</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("invoice.issueDate")}</dt>
               <dd className="text-slate-600 dark:text-slate-400">
                 {issueDate ? formatDate(issueDate, company.dateFormat) : "—"}
               </dd>
             </div>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">{t("clientForm.phone")}</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("invoice.dueDate")}</dt>
               <dd className="text-slate-600 dark:text-slate-400">
                 {dueDate ? formatDate(dueDate, company.dateFormat) : "—"}
               </dd>
             </div>
             <div className="flex justify-end gap-3">
               <dt className="text-slate-400 dark:text-slate-500">{t("settings.dueDays")}</dt>
-              <dd className="text-slate-600 dark:text-slate-400">{company.paymentDueDays} jours</dd>
+              <dd className="text-slate-600 dark:text-slate-400">{company.paymentDueDays} {t("settings.dueDays")}</dd>
             </div>
           </dl>
         </div>
@@ -211,7 +211,7 @@ export function InvoicePreview({
               {paymentMethod}
             </p>
             <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-              Sous {company.paymentDueDays} jours
+              {t("invoice.dueDate")}: {company.paymentDueDays}j
             </p>
           </div>
         </div>
@@ -221,10 +221,10 @@ export function InvoicePreview({
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-[10px] uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                <th className="px-3 py-2 font-semibold">{t("clientForm.name")}</th>
-                <th className="px-3 py-2 text-right font-semibold">{t("clientForm.phone")}</th>
-                <th className="px-3 py-2 text-right font-semibold">{t("clientForm.email")}</th>
-                <th className="px-3 py-2 text-right font-semibold">Total</th>
+                <th className="px-3 py-2 font-semibold">{t("invoice.description")}</th>
+                <th className="px-3 py-2 text-right font-semibold">{t("invoice.quantity")}</th>
+                <th className="px-3 py-2 text-right font-semibold">{t("invoice.unitPrice")}</th>
+                <th className="px-3 py-2 text-right font-semibold">{t("invoice.lineTotal")}</th>
               </tr>
             </thead>
             <tbody>
@@ -234,7 +234,7 @@ export function InvoicePreview({
                     colSpan={4}
                     className="px-3 py-4 text-center text-slate-400 dark:text-slate-500"
                   >
-                    Ajoutez au moins une ligne…
+                  {t("invoice.noLines")}
                   </td>
                 </tr>
               ) : (
@@ -262,19 +262,19 @@ export function InvoicePreview({
         {/* Totaux */}
         <dl className="mt-4 ml-auto w-full max-w-[15rem] space-y-1.5 text-sm">
           <div className="flex justify-between">
-              <dt className="text-slate-500 dark:text-slate-400">{t("clientForm.name")}</dt>
+              <dt className="text-slate-500 dark:text-slate-400">{t("invoice.subtotal")}</dt>
             <dd className="font-medium text-slate-800 dark:text-slate-200">
               {formatMoney(totals.subtotal, company.currency)}
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-slate-500 dark:text-slate-400">TVA ({vatRate}%)</dt>
+            <dt className="text-slate-500 dark:text-slate-400">{t("invoice.vat")} ({vatRate}%)</dt>
             <dd className="font-medium text-slate-800 dark:text-slate-200">
               {formatMoney(totals.vatAmount, company.currency)}
             </dd>
           </div>
           <div className="flex justify-between rounded-lg bg-emerald-600/5 px-3 py-2 text-base ring-1 ring-emerald-600/10">
-            <dt className="font-semibold text-slate-900 dark:text-slate-100">{t("clientForm.save")}</dt>
+            <dt className="font-semibold text-slate-900 dark:text-slate-100">{t("invoice.total")}</dt>
             <dd className="font-bold text-emerald-700 dark:text-emerald-400">
               {formatMoney(totals.total, company.currency)}
             </dd>
