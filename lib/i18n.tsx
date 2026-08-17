@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 export type Lang = "fr" | "en";
 
@@ -597,17 +597,21 @@ interface LangShape {
 
 const LangContext = createContext<LangShape | null>(null);
 
-function getInitial(): Lang {
-  if (typeof window === "undefined") return "fr";
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "fr" || stored === "en") return stored;
-  } catch {}
-  return navigator.language.startsWith("en") ? "en" : "fr";
-}
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(getInitial);
+  const [lang, setLangState] = useState<Lang>("fr");
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (hydrated) return;
+    let detected: Lang = "fr";
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored === "fr" || stored === "en") detected = stored;
+      else if (navigator.language.startsWith("en")) detected = "en";
+    } catch {}
+    if (detected !== "fr") setLangState(detected);
+    setHydrated(true);
+  }, [hydrated]);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
