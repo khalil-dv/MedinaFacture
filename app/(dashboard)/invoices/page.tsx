@@ -92,7 +92,7 @@ function InvoicesContent() {
                 <span
                   className={`rounded-full px-1.5 text-xs font-semibold ${
                     active
-                      ? "bg-white dark:bg-slate-900/20 text-white"
+                      ? "bg-emerald-500 text-white"
                       : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
                   }`}
                 >
