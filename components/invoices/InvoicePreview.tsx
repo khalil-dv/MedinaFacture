@@ -76,7 +76,7 @@ export function InvoicePreview({
   };
 
   return (
-    <div className="sticky top-20 overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-card ring-1 ring-slate-200 dark:ring-slate-800">
+    <div className="lg:sticky lg:top-20 overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-card ring-1 ring-slate-200 dark:ring-slate-800">
       {/* Bandeau */}
       <div className="flex items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-5 py-4">
         <div>
@@ -217,7 +217,7 @@ export function InvoicePreview({
         </div>
 
         {/* Lignes */}
-        <div className="mt-5 overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+        <div className="mt-5 overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-[10px] uppercase tracking-wide text-slate-500 dark:text-slate-400">

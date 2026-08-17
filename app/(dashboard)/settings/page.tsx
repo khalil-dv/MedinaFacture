@@ -747,7 +747,7 @@ export default function SettingsPage() {
 
         {/* Aperçu */}
         <aside>
-          <section className="sticky top-20 rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
+          <section className="xl:sticky xl:top-20 rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
               {t("settings.invoicing")}
             </h2>
@@ -843,7 +843,7 @@ export default function SettingsPage() {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-end border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 px-4 py-3 shadow-[0_-4px_12px_rgba(15,23,42,0.06)] backdrop-blur sm:px-6 lg:left-64">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3">
           {saved && (
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">
               <CheckCircle2 className="size-4" aria-hidden="true" />

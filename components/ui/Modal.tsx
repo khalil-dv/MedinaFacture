@@ -40,8 +40,8 @@ export function Modal({
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 shadow-2xl">
-        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800 px-6 py-4">
+      <div className="relative w-full max-w-lg max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 shadow-2xl">
+        <div className="flex items-start justify-between gap-4 border-b border-slate-100 dark:border-slate-800 px-4 sm:px-6 py-4">
           <div>
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
             {description && (
@@ -56,7 +56,7 @@ export function Modal({
             <X className="size-5" aria-hidden="true" />
           </button>
         </div>
-        <div className="px-6 py-5">{children}</div>
+        <div className="px-4 sm:px-6 py-5">{children}</div>
       </div>
     </div>
   );

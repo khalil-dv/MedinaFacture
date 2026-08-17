@@ -130,7 +130,7 @@ export default function InvoiceDetailPage({
           </Link>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
                 {invoice.number}
               </h1>
               <StatusBadge status={invoice.status} />
@@ -145,7 +145,8 @@ export default function InvoiceDetailPage({
           {invoice.status !== "paid" && remaining > 0 && (
             <Button onClick={openPayment}>
               <Banknote className="size-4" aria-hidden="true" />
-              {t("invoice.collect")}
+              <span className="hidden sm:inline">{t("invoice.collect")}</span>
+              <span className="sm:hidden">{t("invoice.collect").charAt(0)}</span>
             </Button>
           )}
           <Button
@@ -153,7 +154,8 @@ export default function InvoiceDetailPage({
             onClick={() => router.push(`/invoices/${invoice.id}/edit`)}
           >
             <Pencil className="size-4" aria-hidden="true" />
-            {t("invoice.edit")}
+            <span className="hidden sm:inline">{t("invoice.edit")}</span>
+            <span className="sm:hidden">{t("invoice.edit").charAt(0)}</span>
           </Button>
           <Button
             variant="secondary"
@@ -161,14 +163,16 @@ export default function InvoiceDetailPage({
             disabled={downloading}
           >
             <Download className="size-4" aria-hidden="true" />
-            {downloading ? t("invoice.downloading") : t("invoice.download")}
+            <span className="hidden sm:inline">{downloading ? t("invoice.downloading") : t("invoice.download")}</span>
+            <span className="sm:hidden">{t("invoice.download").charAt(0)}</span>
           </Button>
           <Button
             variant="danger"
             onClick={() => setConfirmDelete(true)}
           >
             <Trash2 className="size-4" aria-hidden="true" />
-            {t("invoice.delete")}
+            <span className="hidden sm:inline">{t("invoice.delete")}</span>
+            <span className="sm:hidden">{t("invoice.delete").charAt(0)}</span>
           </Button>
         </div>
       </div>
@@ -229,7 +233,7 @@ export default function InvoiceDetailPage({
             </ul>
 
             <div className="flex justify-end border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 px-6 py-4">
-              <dl className="w-full max-w-xs space-y-2 text-sm">
+              <dl className="w-full max-w-full sm:max-w-xs space-y-2 text-sm">
                 <div className="flex justify-between">
                   <dt className="text-slate-500 dark:text-slate-400">{t("invoice.subtotal")}</dt>
                   <dd className="font-medium text-slate-800 dark:text-slate-200">
