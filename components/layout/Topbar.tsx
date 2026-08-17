@@ -31,7 +31,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
     form.reset();
   };
   return (
-    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 px-4 backdrop-blur-md sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/80 px-3 backdrop-blur-md sm:h-16 sm:gap-3 sm:px-6 lg:px-8">
       {/* Hamburger */}
       <button
         onClick={onMenuClick}
@@ -48,10 +48,10 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
         href="/dashboard"
         className="flex items-center gap-2 lg:hidden"
       >
-        <span className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-xs font-extrabold text-white">
+        <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-[10px] font-extrabold text-white sm:size-8">
           MF
         </span>
-        <span className="text-base font-bold text-slate-900 dark:text-slate-100">MedinaFacture</span>
+        <span className="hidden text-sm font-bold text-slate-900 dark:text-slate-100 sm:inline">MedinaFacture</span>
       </Link>
 
       {/* Recherche mobile */}

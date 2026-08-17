@@ -128,26 +128,38 @@ function DashboardMockup() {
         <div className="h-6 flex-1 rounded-md bg-slate-100 dark:bg-slate-800" />
       </div>
 
-      <div className="flex min-h-[280px] sm:min-h-[340px] lg:min-h-[420px]">
+      <div className="flex min-h-[300px] sm:min-h-[380px] lg:min-h-[420px]">
         {/* Sidebar mockup */}
-        <div className="hidden w-44 shrink-0 border-r border-slate-200 dark:border-slate-800 p-3 lg:block">
-          <div className="mb-4 flex items-center gap-2 px-2 pb-3">
-            <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-[9px] font-extrabold text-white">
+        <div className="hidden w-36 shrink-0 border-r border-slate-200 dark:border-slate-800 p-2.5 sm:block sm:w-40 sm:p-3 lg:w-44">
+          <div className="mb-3 flex items-center gap-2 px-2 pb-3 sm:mb-4">
+            <div className="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-[8px] font-extrabold text-white sm:size-7 sm:text-[9px]">
               MF
             </div>
-            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">MedinaFacture</span>
+            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 sm:text-xs">MedinaFacture</span>
           </div>
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 rounded-lg bg-emerald-500/10 px-2.5 py-2">
-              <div className="size-4 rounded bg-emerald-500/30" />
-              <div className="h-2.5 w-20 rounded bg-emerald-500/40" />
+          <div className="space-y-1 sm:space-y-1.5">
+            <div className="flex items-center gap-2 rounded-lg bg-emerald-500/10 px-2 py-1.5 sm:px-2.5 sm:py-2">
+              <div className="size-3.5 rounded bg-emerald-500/30 sm:size-4" />
+              <div className="h-2 w-16 rounded bg-emerald-500/40 sm:h-2.5 sm:w-20" />
             </div>
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center gap-2 rounded-lg px-2.5 py-2">
-                <div className="size-4 rounded bg-slate-200 dark:bg-slate-700" />
-                <div className="h-2.5 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+              <div key={i} className="flex items-center gap-2 rounded-lg px-2 py-1.5 sm:px-2.5 sm:py-2">
+                <div className="size-3.5 rounded bg-slate-200 dark:bg-slate-700 sm:size-4" />
+                <div className="h-2 w-14 rounded bg-slate-200 dark:bg-slate-700 sm:h-2.5 sm:w-16" />
               </div>
             ))}
+          </div>
+          {/* User block */}
+          <div className="mt-4 border-t border-slate-200 dark:border-slate-800 pt-3 sm:mt-6">
+            <div className="flex items-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800/60 px-2 py-2">
+              <div className="grid size-6 shrink-0 place-items-center rounded-full bg-emerald-600 text-[7px] font-bold text-white sm:size-7 sm:text-[8px]">
+                AD
+              </div>
+              <div className="min-w-0">
+                <div className="h-2 w-14 truncate rounded bg-slate-300 dark:bg-slate-600 sm:w-16" />
+                <div className="mt-0.5 h-1.5 w-10 rounded bg-slate-200 dark:bg-slate-700" />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -269,12 +281,12 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       {/* ─── Navbar ─── */}
       <nav className="sticky top-0 z-50 border-b border-slate-200/60 dark:border-white/[0.06] bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-5 sm:py-4 lg:px-12">
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 sm:py-4 lg:px-12">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-xs font-extrabold text-white shadow-md shadow-emerald-900/20 sm:size-9">
               MF
             </div>
-            <span className="text-base font-bold tracking-tight sm:text-lg">
+            <span className="text-[15px] font-bold tracking-tight sm:text-lg">
               MedinaFacture
             </span>
           </Link>
@@ -301,7 +313,7 @@ export default function LandingPage() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-3 sm:gap-3">
             <Link
               href="/login"
               className="hidden text-sm font-medium text-slate-600 dark:text-slate-400 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 md:inline-flex"
@@ -310,12 +322,12 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 hover:bg-emerald-500 hover:shadow-emerald-500/30 active:scale-[0.97] sm:px-5 sm:py-2.5 sm:text-sm"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 hover:bg-emerald-500 hover:shadow-emerald-500/30 active:scale-[0.97] sm:px-5 sm:py-2.5 sm:text-sm"
             >
               {t("landing.nav.start")}
             </Link>
             <button
-              className="p-1.5 text-slate-600 dark:text-slate-400 sm:hidden"
+              className="p-2 text-slate-600 dark:text-slate-400 sm:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menu"
             >
@@ -392,7 +404,11 @@ export default function LandingPage() {
             {/* Dashboard mockup */}
             <FadeIn delay={400}>
               <div className="relative mx-auto mt-12 max-w-5xl sm:mt-16 lg:mt-20">
-                <DashboardMockup />
+                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+                  <div className="min-w-[520px]">
+                    <DashboardMockup />
+                  </div>
+                </div>
               </div>
             </FadeIn>
           </div>

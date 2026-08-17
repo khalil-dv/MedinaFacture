@@ -31,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             showMenuAlways={focused}
           />
           <main
-            className={`mx-auto w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8 ${
+            className={`mx-auto w-full flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-8 ${
               focused ? "max-w-[1400px]" : "max-w-7xl"
             }`}
           >
