@@ -106,8 +106,8 @@ begin
   insert into public.profiles (id, email, full_name)
   values (new.id, new.email, coalesce(new.raw_user_meta_data ->> 'full_name', ''));
 
-  insert into public.company_settings (user_id)
-  values (new.id);
+  insert into public.company_settings (user_id, name)
+  values (new.id, coalesce(nullif(new.raw_user_meta_data ->> 'company_name', ''), 'MedinaFacture'));
 
   return new;
 end;

@@ -13,7 +13,9 @@ export default function SignupPage() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -36,11 +38,18 @@ export default function SignupPage() {
     setLoading(true);
     const supabase = createClient();
 
+    const fullName = [firstName.trim(), lastName.trim()].filter(Boolean).join(" ");
+
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: {
-        data: { full_name: fullName.trim() },
+        data: {
+          full_name: fullName,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          company_name: company.trim(),
+        },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
@@ -51,18 +60,14 @@ export default function SignupPage() {
       return;
     }
 
-    // Compte actif immédiatement (confirmation email désactivée)
     if (data.session) {
       router.push("/dashboard");
       router.refresh();
       return;
     }
 
-    // Confirmation par email requise
     setLoading(false);
-    setError(
-      t("signup.confirmEmail"),
-    );
+    setError(t("signup.confirmEmail"));
   };
 
   return (
@@ -75,15 +80,39 @@ export default function SignupPage() {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <Label htmlFor="firstName">{t("signup.firstName")}</Label>
+            <Input
+              id="firstName"
+              autoComplete="given-name"
+              required
+              placeholder={t("signup.firstNamePlaceholder")}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div>
+            <Label htmlFor="lastName">{t("signup.lastName")}</Label>
+            <Input
+              id="lastName"
+              autoComplete="family-name"
+              required
+              placeholder={t("signup.lastNamePlaceholder")}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+        </div>
         <div>
-          <Label htmlFor="fullName">{t("signup.fullName")}</Label>
+          <Label htmlFor="company">{t("signup.company")}</Label>
           <Input
-            id="fullName"
-            autoComplete="name"
+            id="company"
+            autoComplete="organization"
             required
-            placeholder={t("signup.fullNamePlaceholder")}
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            placeholder={t("signup.companyPlaceholder")}
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
           />
         </div>
         <div>
