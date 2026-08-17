@@ -48,7 +48,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
         key={href}
         href={href}
         onClick={onNavigate}
-        className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+        className={`group flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
           active
             ? "bg-emerald-600/15 text-emerald-400"
             : "text-slate-400 dark:text-slate-500 hover:bg-slate-800 hover:text-slate-100"
@@ -142,7 +142,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           <Link
             href="/settings"
             aria-label={t("nav.settingsAria")}
-            className="rounded-lg p-1.5 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-700 hover:text-white"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-700 hover:text-white"
           >
             <Settings className="size-4" aria-hidden="true" />
           </Link>
@@ -150,7 +150,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <button
           onClick={handleLogout}
           disabled={signingOut}
-          className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-red-400"
+          className="mt-2 flex min-h-[44px] w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-red-400"
         >
           <LogOut className="size-4" aria-hidden="true" />
           {signingOut ? t("nav.loggingOut") : t("nav.logout")}
@@ -194,7 +194,7 @@ export function Sidebar({ open, onClose, drawerAlways = false }: SidebarProps) {
             <button
               onClick={onClose}
               aria-label={t("nav.close")}
-              className="absolute right-3 top-4 rounded-lg p-1.5 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-white"
+              className="absolute right-3 top-4 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-white"
             >
               <X className="size-5" aria-hidden="true" />
             </button>

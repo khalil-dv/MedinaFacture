@@ -36,7 +36,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
       <button
         onClick={onMenuClick}
         aria-label={t("topbar.openMenu")}
-        className={`rounded-lg p-2 text-slate-600 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 ${
+        className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 ${
           showMenuAlways ? "" : "lg:hidden"
         }`}
       >
@@ -106,12 +106,12 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
           onClick={toggleTheme}
           aria-label={theme === "dark" ? t("topbar.themeLightAria") : t("topbar.themeDarkAria")}
           title={theme === "dark" ? t("topbar.themeLight") : t("topbar.themeDark")}
-          className="rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
+          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
         >
           {theme === "dark" ? (
-            <Sun className="size-4 sm:size-5" aria-hidden="true" />
+            <Sun className="size-5" aria-hidden="true" />
           ) : (
-            <Moon className="size-4 sm:size-5" aria-hidden="true" />
+            <Moon className="size-5" aria-hidden="true" />
           )}
         </button>
 
@@ -120,7 +120,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
           onClick={toggleLang}
           aria-label="Language"
           title={lang === "fr" ? "English" : "Français"}
-          className="hidden rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 sm:block"
+          className="hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 sm:flex"
         >
           <Globe className="size-5" aria-hidden="true" />
         </button>
@@ -129,9 +129,9 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
         <Link
           href="/notifications"
           aria-label={t("topbar.notifications")}
-          className="relative rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
+          className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
         >
-          <Bell className="size-4 sm:size-5" aria-hidden="true" />
+          <Bell className="size-5" aria-hidden="true" />
           {hasNotifications && (
             <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
           )}
@@ -142,7 +142,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
         {/* Avatar */}
         <button
           aria-label={t("topbar.profile")}
-          className="grid size-7 place-items-center rounded-full bg-emerald-600 text-[10px] font-bold text-white transition-opacity hover:opacity-90 sm:size-8 sm:text-xs"
+          className="grid size-9 place-items-center rounded-full bg-emerald-600 text-[10px] font-bold text-white transition-opacity hover:opacity-90 sm:size-10 sm:text-xs"
         >
           {initialsOf(displayName)}
         </button>

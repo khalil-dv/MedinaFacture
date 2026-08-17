@@ -793,9 +793,9 @@ export default function LandingPage() {
               <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 {t("landing.footer.features")}
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-1">
                 <li>
-                  <a href="#features" className="text-xs text-slate-500 dark:text-slate-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 sm:text-sm">
+                  <a href="#features" className="inline-block rounded-lg px-2 py-1.5 text-xs text-slate-500 dark:text-slate-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 sm:text-sm">
                     {t("landing.nav.features")}
                   </a>
                 </li>
@@ -805,9 +805,9 @@ export default function LandingPage() {
               <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 {t("landing.footer.support")}
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-1">
                 <li>
-                  <Link href="/support" className="text-xs text-slate-500 dark:text-slate-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 sm:text-sm">
+                  <Link href="/support" className="inline-block rounded-lg px-2 py-1.5 text-xs text-slate-500 dark:text-slate-500 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 sm:text-sm">
                     {t("landing.footer.help")}
                   </Link>
                 </li>
@@ -817,14 +817,14 @@ export default function LandingPage() {
               <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 {t("landing.footer.legal")}
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-1">
                 <li>
-                  <span className="text-xs text-slate-400 dark:text-slate-600 sm:text-sm">
+                  <span className="inline-block rounded-lg px-2 py-1.5 text-xs text-slate-400 dark:text-slate-600 sm:text-sm">
                     {t("landing.footer.privacy")}
                   </span>
                 </li>
                 <li>
-                  <span className="text-xs text-slate-400 dark:text-slate-600 sm:text-sm">
+                  <span className="inline-block rounded-lg px-2 py-1.5 text-xs text-slate-400 dark:text-slate-600 sm:text-sm">
                     {t("landing.footer.terms")}
                   </span>
                 </li>

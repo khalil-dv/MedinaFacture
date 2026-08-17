@@ -75,7 +75,7 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
         <p className="text-sm text-red-600 dark:text-red-400">{loadError}</p>
-        <button onClick={retryLoad} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">{t("common.retry")}</button>
+        <button onClick={retryLoad} className="rounded-lg px-4 py-2.5 text-sm font-semibold text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700">{t("common.retry")}</button>
       </div>
     );
   }

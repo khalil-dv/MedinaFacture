@@ -149,8 +149,7 @@ export default function InvoiceDetailPage({
           {invoice.status !== "paid" && remaining > 0 && (
             <Button onClick={openPayment}>
               <Banknote className="size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{t("invoice.collect")}</span>
-              <span className="sm:hidden">{t("invoice.collect").charAt(0)}</span>
+              <span>{t("invoice.collect")}</span>
             </Button>
           )}
           <Button
@@ -158,8 +157,7 @@ export default function InvoiceDetailPage({
             onClick={() => router.push(`/invoices/${invoice.id}/edit`)}
           >
             <Pencil className="size-4" aria-hidden="true" />
-            <span className="hidden sm:inline">{t("invoice.edit")}</span>
-            <span className="sm:hidden">{t("invoice.edit").charAt(0)}</span>
+            <span>{t("invoice.edit")}</span>
           </Button>
           <Button
             variant="secondary"
@@ -167,8 +165,7 @@ export default function InvoiceDetailPage({
             disabled={downloading}
           >
             <Download className="size-4" aria-hidden="true" />
-            <span className="hidden sm:inline">{downloading ? t("invoice.downloading") : t("invoice.download")}</span>
-            <span className="sm:hidden">{t("invoice.download").charAt(0)}</span>
+            <span>{downloading ? t("invoice.downloading") : t("invoice.download")}</span>
           </Button>
           <Button
             variant="danger"
@@ -176,7 +173,7 @@ export default function InvoiceDetailPage({
           >
             <Trash2 className="size-4" aria-hidden="true" />
             <span className="hidden sm:inline">{t("invoice.delete")}</span>
-            <span className="sm:hidden">{t("invoice.delete").charAt(0)}</span>
+            <span className="sm:hidden">{t("invoice.deleteShort")}</span>
           </Button>
         </div>
       </div>

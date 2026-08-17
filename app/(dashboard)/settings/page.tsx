@@ -842,7 +842,7 @@ export default function SettingsPage() {
         </aside>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-end border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 px-4 py-3 shadow-[0_-4px_12px_rgba(15,23,42,0.06)] backdrop-blur sm:px-6 lg:left-64">
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-end border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/90 px-4 py-3 shadow-[0_-4px_12px_rgba(15,23,42,0.06)] backdrop-blur sm:px-6">
         <div className="flex flex-wrap items-center justify-end gap-3">
           {saved && (
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">

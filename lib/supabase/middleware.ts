@@ -35,7 +35,8 @@ export async function updateSession(request: NextRequest) {
   const isAuthPage =
     path.startsWith("/login") ||
     path.startsWith("/signup") ||
-    path.startsWith("/forgot-password");
+    path.startsWith("/forgot-password") ||
+    path.startsWith("/auth/callback");
   const isPublicPage = isLandingPage || isAuthPage;
 
   if (!user && !isPublicPage) {
