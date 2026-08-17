@@ -1,5 +1,5 @@
 -- ============================================================
--- IziFacture — Migration : coordonnées de paiement + mode par facture
+-- MedinaFacture — Migration : coordonnées de paiement + mode par facture
 -- Exécuter DANS L'ÉDITEUR SQL Supabase (projet déjà initialisé)
 -- ============================================================
 

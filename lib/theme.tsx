@@ -11,7 +11,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-const STORAGE_KEY = "izifacture-theme";
+const STORAGE_KEY = "medinafacture-theme";
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";

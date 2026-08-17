@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "IziFacture — Facturation simple pour entrepreneurs",
-    short_name: "IziFacture",
+    name: "MedinaFacture — Facturation simple pour entrepreneurs",
+    short_name: "MedinaFacture",
     description:
       "Facturez, suivez vos paiements et gérez vos clients.",
     start_url: "/dashboard",

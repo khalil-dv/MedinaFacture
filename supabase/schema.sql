@@ -1,5 +1,5 @@
 -- ============================================================
--- IziFacture — Schéma Supabase
+-- MedinaFacture — Schéma Supabase
 -- Exécuter tout ce fichier dans l'éditeur SQL de Supabase
 -- (Dashboard > SQL Editor > New query)
 -- ============================================================
@@ -21,7 +21,7 @@ create table if not exists public.profiles (
 -- Réglages société (1 ligne par utilisateur)
 create table if not exists public.company_settings (
   user_id uuid primary key references auth.users (id) on delete cascade,
-  name text not null default 'IziFacture',
+  name text not null default 'MedinaFacture',
   owner_name text not null default '',
   email text not null default '',
   phone text not null default '',

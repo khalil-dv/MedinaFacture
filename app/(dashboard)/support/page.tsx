@@ -42,7 +42,7 @@ const CONTACTS = [
   {
     icon: Mail,
     title: "Par email",
-    value: "support@izifacture.sn",
+    value: "support@medinafacture.sn",
     hint: "Réponse sous 24 h ouvrées.",
   },
   {

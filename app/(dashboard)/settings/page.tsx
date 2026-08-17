@@ -425,7 +425,7 @@ export default function SettingsPage() {
                   id="company-name"
                   value={form.name}
                   onChange={(e) => set("name")(e.target.value)}
-                  placeholder="Ex. IziFacture"
+                  placeholder="Ex. MedinaFacture"
                 />
                 <FieldError message={errors.name} />
               </div>

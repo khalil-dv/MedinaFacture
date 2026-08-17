@@ -1,5 +1,5 @@
 -- ============================================================
--- IziFacture — Migration 003 : durcissement sécurité & données
+-- MedinaFacture — Migration 003 : durcissement sécurité & données
 -- À exécuter dans le SQL Editor de Supabase, après 001 et 002.
 -- ============================================================
 

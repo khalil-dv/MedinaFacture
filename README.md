@@ -1,4 +1,4 @@
-# IziFacture
+# MedinaFacture
 
 Facturation simple pour entrepreneurs africains : créez des factures, suivez
 les paiements, gérez vos clients et vos coordonnées de paiement — le tout en
@@ -70,7 +70,7 @@ select pg_notify('pgrst', 'reload schema');
 
 Dans **Supabase → Authentication → URL Configuration** :
 
-- Site URL : votre URL de production (ex. `https://izifacture.vercel.app`)
+- Site URL : votre URL de production (ex. `https://medinafacture.vercel.app`)
 - Redirect URLs : `https://votre-domaine/auth/callback` et
   `http://localhost:3000/auth/callback` (développement)
 

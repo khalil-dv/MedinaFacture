@@ -49,7 +49,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
         <span className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 text-xs font-extrabold text-white">
           IZ
         </span>
-        <span className="text-base font-bold text-slate-900 dark:text-slate-100">IziFacture</span>
+        <span className="text-base font-bold text-slate-900 dark:text-slate-100">MedinaFacture</span>
       </Link>
 
       {/* Recherche desktop */}

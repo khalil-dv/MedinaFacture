@@ -13,17 +13,17 @@ export default function AuthLayout({
             IZ
           </div>
           <div className="leading-tight">
-            <p className="text-lg font-bold text-slate-900 dark:text-slate-100">IziFacture</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-slate-100">MedinaFacture</p>
           </div>
         </div>
         {children}
         <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
-          © {new Date().getFullYear()} IziFacture —{" "}
+          © {new Date().getFullYear()} MedinaFacture —{" "}
           <Link
             href="/login"
             className="hover:text-slate-600 dark:hover:text-slate-300"
           >
-            support@izifacture.sn
+            support@medinafacture.sn
           </Link>
         </p>
       </div>

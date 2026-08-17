@@ -40,7 +40,7 @@ export interface CompanySettings {
 }
 
 const DEFAULT_COMPANY: CompanySettings = {
-  name: "IziFacture",
+  name: "MedinaFacture",
   ownerName: "",
   email: "",
   phone: "",

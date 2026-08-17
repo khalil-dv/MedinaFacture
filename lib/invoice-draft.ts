@@ -18,7 +18,7 @@ export interface InvoiceDraft {
 }
 
 export function invoiceDraftKey(userEmail: string): string {
-  return `izifacture-invoice-draft-${userEmail}`;
+  return `medinafacture-invoice-draft-${userEmail}`;
 }
 
 export function loadInvoiceDraft(key: string): InvoiceDraft | null {

@@ -22,12 +22,12 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
-    default: "IziFacture — Facturation simple pour entrepreneurs",
-    template: "%s | IziFacture",
+    default: "MedinaFacture — Facturation simple pour entrepreneurs",
+    template: "%s | MedinaFacture",
   },
   description:
     "Facturez en FCFA, suivez vos paiements et gérez vos clients. La facturation pensée pour les entrepreneurs africains.",
-  applicationName: "IziFacture",
+  applicationName: "MedinaFacture",
   keywords: [
     "facturation",
     "factures",
@@ -45,16 +45,16 @@ export const metadata: Metadata = {
     icon: "/icon.svg",
   },
   openGraph: {
-    title: "IziFacture — Facturation simple pour entrepreneurs",
+    title: "MedinaFacture — Facturation simple pour entrepreneurs",
     description:
       "Facturez, suivez vos paiements et gérez vos clients. La facturation pensée pour les entrepreneurs africains.",
     type: "website",
     locale: "fr_FR",
-    siteName: "IziFacture",
+    siteName: "MedinaFacture",
   },
   twitter: {
     card: "summary",
-    title: "IziFacture — Facturation simple pour entrepreneurs",
+    title: "MedinaFacture — Facturation simple pour entrepreneurs",
     description:
       "Facturez, suivez vos paiements et gérez vos clients. La facturation pensée pour les entrepreneurs africains.",
   },
@@ -76,7 +76,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('izifacture-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('medinafacture-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
           }}
         />
       </head>

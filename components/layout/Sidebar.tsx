@@ -119,7 +119,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           IZ
         </div>
         <div className="leading-tight">
-          <p className="text-base font-bold text-white">IziFacture</p>
+          <p className="text-base font-bold text-white">MedinaFacture</p>
         </div>
       </div>
 
