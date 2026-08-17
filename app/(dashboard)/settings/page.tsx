@@ -24,6 +24,7 @@ import {
   Textarea,
 } from "@/components/ui/Fields";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 import {
   ALL_CURRENCIES,
@@ -221,6 +222,7 @@ function Toggle({
 
 export default function SettingsPage() {
   const { company, updateCompany } = useStore();
+  const { t } = useTranslation();
   const [form, setForm] = useState<FormState>(() => toForm(company));
   const [dirty, setDirty] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -328,17 +330,17 @@ export default function SettingsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Paramètres
+            {t("settings.title")}
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Votre entreprise, votre région et vos modèles de facturation.
+            {t("settings.subtitle")}
           </p>
         </div>
         <div className="flex items-center gap-2">
           {saved && (
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">
               <CheckCircle2 className="size-4" aria-hidden="true" />
-              Modifications enregistrées
+              {t("settings.saved")}
             </span>
           )}
           {errors.form && (
@@ -349,7 +351,7 @@ export default function SettingsPage() {
           )}
           <Button onClick={handleSave}>
             <Save className="size-4" aria-hidden="true" />
-            Enregistrer
+            {t("settings.save")}
           </Button>
         </div>
       </div>
@@ -361,8 +363,8 @@ export default function SettingsPage() {
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <SectionHeader
               icon={<Building2 className="size-4" aria-hidden="true" />}
-              title="Profil de l'entreprise"
-              subtitle="Votre société telle qu'elle apparaît sur vos factures."
+              title={t("settings.company")}
+              subtitle={t("settings.subtitle")}
             />
 
             <div className="mt-6 flex items-center gap-4">
@@ -388,7 +390,7 @@ export default function SettingsPage() {
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <ImagePlus className="size-4" aria-hidden="true" />
-                    {form.logoDataUrl ? "Changer le logo" : "Ajouter un logo"}
+                    {form.logoDataUrl ? t("settings.logoUpload") : t("settings.logoUpload")}
                   </Button>
                   {form.logoDataUrl && (
                     <Button
@@ -400,7 +402,7 @@ export default function SettingsPage() {
                       }}
                     >
                       <Trash2 className="size-4" aria-hidden="true" />
-                      Supprimer
+                      {t("settings.logoRemove")}
                     </Button>
                   )}
                 </div>
@@ -420,7 +422,7 @@ export default function SettingsPage() {
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <Label htmlFor="company-name">Nom de l&apos;entreprise</Label>
+                <Label htmlFor="company-name">{t("settings.companyName")}</Label>
                 <Input
                   id="company-name"
                   value={form.name}
@@ -430,7 +432,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.name} />
               </div>
               <div>
-                <Label htmlFor="owner-name">Nom du propriétaire</Label>
+                <Label htmlFor="owner-name">{t("settings.ownerName")}</Label>
                 <Input
                   id="owner-name"
                   value={form.ownerName}
@@ -440,7 +442,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.ownerName} />
               </div>
               <div>
-                <Label htmlFor="company-email">Email</Label>
+                <Label htmlFor="company-email">{t("settings.email")}</Label>
                 <Input
                   id="company-email"
                   type="email"
@@ -451,7 +453,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.email} />
               </div>
               <div>
-                <Label htmlFor="company-phone">Téléphone</Label>
+                <Label htmlFor="company-phone">{t("settings.phone")}</Label>
                 <Input
                   id="company-phone"
                   value={form.phone}
@@ -461,7 +463,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.phone} />
               </div>
               <div>
-                <Label htmlFor="company-tax">RCCM / N° contribuable</Label>
+                <Label htmlFor="company-tax">{t("settings.taxId")}</Label>
                 <Input
                   id="company-tax"
                   value={form.taxId}
@@ -471,7 +473,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.taxId} />
               </div>
               <div className="sm:col-span-2">
-                <Label htmlFor="company-address">Adresse</Label>
+                <Label htmlFor="company-address">{t("settings.address")}</Label>
                 <Textarea
                   id="company-address"
                   rows={2}
@@ -488,13 +490,13 @@ export default function SettingsPage() {
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <SectionHeader
               icon={<Globe2 className="size-4" aria-hidden="true" />}
-              title="Région & Devise"
-              subtitle="Votre pays, votre devise et le format des dates."
+              title={t("settings.country")}
+              subtitle={t("settings.subtitle")}
             />
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <Label htmlFor="country">Pays</Label>
+                <Label htmlFor="country">{t("settings.country")}</Label>
                 <Select
                   id="country"
                   value={form.country}
@@ -511,7 +513,7 @@ export default function SettingsPage() {
                     }));
                   }}
                 >
-                  <option value="">Sélectionner un pays…</option>
+                  <option value="">{t("settings.country")}</option>
                   {!COUNTRIES.some((c) => c.name === form.country) &&
                     form.country && (
                       <option value={form.country}>{form.country}</option>
@@ -531,7 +533,7 @@ export default function SettingsPage() {
                 )}
               </div>
               <div>
-                <Label htmlFor="currency">Devise</Label>
+                <Label htmlFor="currency">{t("settings.currency")}</Label>
                 <Select
                   id="currency"
                   value={form.currency}
@@ -550,7 +552,7 @@ export default function SettingsPage() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="language">Langue</Label>
+                <Label htmlFor="language">{t("settings.language")}</Label>
                 <Select
                   id="language"
                   value={form.language}
@@ -568,7 +570,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.language} />
               </div>
               <div>
-                <Label htmlFor="date-format">Format des dates</Label>
+                <Label htmlFor="date-format">{t("settings.dateFormat")}</Label>
                 <Select
                   id="date-format"
                   value={form.dateFormat}
@@ -589,13 +591,13 @@ export default function SettingsPage() {
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <SectionHeader
               icon={<ReceiptText className="size-4" aria-hidden="true" />}
-              title="Modèles de facturation"
-              subtitle="Valeurs appliquées par défaut à vos nouvelles factures."
+              title={t("settings.invoicing")}
+              subtitle={t("settings.subtitle")}
             />
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <Label htmlFor="vat-rate">TVA par défaut (%)</Label>
+                <Label htmlFor="vat-rate">{t("settings.vatRate")}</Label>
                 <Input
                   id="vat-rate"
                   type="number"
@@ -609,7 +611,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.defaultVatRate} />
               </div>
               <div>
-                <Label htmlFor="due-days">Délai de paiement (jours)</Label>
+                <Label htmlFor="due-days">{t("settings.dueDays")}</Label>
                 <Input
                   id="due-days"
                   type="number"
@@ -622,7 +624,7 @@ export default function SettingsPage() {
                 <FieldError message={errors.paymentDueDays} />
               </div>
               <div>
-                <Label htmlFor="prefix">Préfixe des numéros</Label>
+                <Label htmlFor="prefix">{t("settings.invoicePrefix")}</Label>
                 <Input
                   id="prefix"
                   value={form.invoicePrefix}
@@ -636,7 +638,7 @@ export default function SettingsPage() {
               </div>
               <div>
                 <Label htmlFor="payment-method">
-                  Méthode de paiement par défaut
+                  {t("settings.defaultPaymentMethod")}
                 </Label>
                 <Select
                   id="payment-method"
@@ -655,7 +657,7 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 px-4 py-3">
                   <div>
                     <Label htmlFor="payment-reminders" className="mb-0.5">
-                      Rappels de paiement automatiques
+                      {t("settings.enableReminders")}
                     </Label>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
                       Un rappel est envoyé au client lorsque la facture arrive à
@@ -670,13 +672,13 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <Label htmlFor="default-notes">Notes par défaut</Label>
+                <Label htmlFor="default-notes">{t("settings.defaultNotes")}</Label>
                 <Textarea
                   id="default-notes"
                   rows={3}
                   value={form.defaultNotes}
                   onChange={(e) => set("defaultNotes")(e.target.value)}
-                  placeholder="Ex. Paiement à réception. Merci de votre confiance !"
+                  placeholder={t("settings.defaultNotesPlaceholder")}
                 />
                 <FieldError message={errors.defaultNotes} />
               </div>
@@ -687,13 +689,13 @@ export default function SettingsPage() {
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <SectionHeader
               icon={<Wallet className="size-4" aria-hidden="true" />}
-              title="Coordonnées de paiement"
-              subtitle="Affichées sur toutes vos factures : virement, Wave et Orange Money."
+              title={t("settings.paymentInfo")}
+              subtitle={t("settings.subtitle")}
             />
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <Label htmlFor="bank-account-name">Titulaire du compte</Label>
+                <Label htmlFor="bank-account-name">{t("settings.bankAccountName")}</Label>
                 <Input
                   id="bank-account-name"
                   value={form.bankAccountName}
@@ -702,7 +704,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="bank-name">Banque</Label>
+                <Label htmlFor="bank-name">{t("settings.bankName")}</Label>
                 <Input
                   id="bank-name"
                   value={form.bankName}
@@ -711,7 +713,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <Label htmlFor="bank-account-number">RIB / IBAN</Label>
+                <Label htmlFor="bank-account-number">{t("settings.bankAccountNumber")}</Label>
                 <Input
                   id="bank-account-number"
                   value={form.bankAccountNumber}
@@ -720,7 +722,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="wave-number">Numéro Wave</Label>
+                <Label htmlFor="wave-number">{t("settings.waveNumber")}</Label>
                 <Input
                   id="wave-number"
                   type="tel"
@@ -730,7 +732,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="orange-number">Numéro Orange Money</Label>
+                <Label htmlFor="orange-number">{t("settings.orangeMoney")}</Label>
                 <Input
                   id="orange-number"
                   type="tel"
@@ -747,7 +749,7 @@ export default function SettingsPage() {
         <aside>
           <section className="sticky top-20 rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-              Aperçu de la facture
+              {t("settings.invoicing")}
             </h2>
 
             <div className="mt-4 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
@@ -785,7 +787,7 @@ export default function SettingsPage() {
                 {form.address && (
                   <div className="flex gap-2">
                     <dt className="shrink-0 font-medium text-slate-400 dark:text-slate-500">
-                      Adresse
+                      {t("settings.address")}
                     </dt>
                     <dd className="text-right text-slate-600 dark:text-slate-400">
                       {form.address}
@@ -795,7 +797,7 @@ export default function SettingsPage() {
                 {(form.email || form.phone) && (
                   <div className="flex gap-2">
                     <dt className="shrink-0 font-medium text-slate-400 dark:text-slate-500">
-                      Contact
+                      {t("settings.email")}
                     </dt>
                     <dd className="text-right text-slate-600 dark:text-slate-400">
                       {[form.phone, form.email].filter(Boolean).join(" · ")}
@@ -807,25 +809,25 @@ export default function SettingsPage() {
 
             <dl className="mt-4 space-y-2 text-sm">
               <div className="flex justify-between">
-                <dt className="text-slate-500 dark:text-slate-400">TVA</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t("settings.vatRate")}</dt>
                 <dd className="font-medium text-slate-800 dark:text-slate-200">
                   {form.defaultVatRate}%
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-slate-500 dark:text-slate-400">Devise</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t("settings.currency")}</dt>
                 <dd className="font-medium text-slate-800 dark:text-slate-200">
                   {form.currency} ({currencyLabel(form.currency)})
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-slate-500 dark:text-slate-400">Délai de paiement</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t("settings.dueDays")}</dt>
                 <dd className="font-medium text-slate-800 dark:text-slate-200">
                   {form.paymentDueDays} jours
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-slate-500 dark:text-slate-400">Paiement</dt>
+                <dt className="text-slate-500 dark:text-slate-400">{t("settings.defaultPaymentMethod")}</dt>
                 <dd className="text-right font-medium text-slate-800 dark:text-slate-200">
                   {form.defaultPaymentMethod}
                 </dd>
@@ -833,7 +835,7 @@ export default function SettingsPage() {
             </dl>
 
             <p className="mt-4 border-t border-slate-100 dark:border-slate-800 pt-3 text-xs text-slate-400 dark:text-slate-500">
-              Facture émise le {formatDate(new Date(), form.dateFormat)} — ces
+              {t("settings.invoicing")} — {formatDate(new Date(), form.dateFormat)} — ces
               réglages seront appliqués aux prochaines factures.
             </p>
           </section>
@@ -845,7 +847,7 @@ export default function SettingsPage() {
           {saved && (
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">
               <CheckCircle2 className="size-4" aria-hidden="true" />
-              Modifications enregistrées
+              {t("settings.saved")}
             </span>
           )}
           {errors.form && (
@@ -856,7 +858,7 @@ export default function SettingsPage() {
           )}
           <Button onClick={handleSave}>
             <Save className="size-4" aria-hidden="true" />
-            Enregistrer
+            {t("settings.save")}
           </Button>
         </div>
       </div>

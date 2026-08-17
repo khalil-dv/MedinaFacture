@@ -6,27 +6,29 @@ import { useStore } from "@/lib/store";
 import { getNotifications } from "@/lib/notifications";
 import { formatDate } from "@/lib/format";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useTranslation } from "@/lib/i18n";
 
 export default function NotificationsPage() {
   const { invoices, company } = useStore();
+  const { t } = useTranslation();
   const notifications = getNotifications(invoices);
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-          Notifications
+          {t("notifications.title")}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Retards de paiement et échéances à venir.
+          {t("notifications.subtitle")}
         </p>
       </div>
 
       {notifications.length === 0 ? (
         <EmptyState
           icon={Bell}
-          title="Aucune notification"
-          description="Vous êtes à jour : aucune facture en retard ni échéance proche. Vous serez alerté ici dès qu'une action est nécessaire."
+          title={t("notifications.empty")}
+          description={t("notifications.emptyDesc")}
         />
       ) : (
         <ul className="space-y-3">

@@ -1,10 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "@/lib/i18n";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
+  const year = new Date().getFullYear();
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-10">
       <div className="w-full max-w-md">
@@ -18,7 +23,7 @@ export default function AuthLayout({
         </div>
         {children}
         <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
-          © {new Date().getFullYear()} MedinaFacture —{" "}
+          © {t("auth.copyright", { year })}
           <Link
             href="/login"
             className="hover:text-slate-600 dark:hover:text-slate-300"

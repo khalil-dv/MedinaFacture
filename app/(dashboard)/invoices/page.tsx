@@ -6,18 +6,19 @@ import { Suspense, useMemo, useState } from "react";
 import { FileText, Plus, Search } from "lucide-react";
 import type { InvoiceStatus } from "@/lib/data";
 import { useStore } from "@/lib/store";
+import { useTranslation } from "@/lib/i18n";
 import { formatDate, formatMoney } from "@/lib/format";
 import { StatusBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 type Filter = InvoiceStatus | "all";
 
-const FILTERS: { value: Filter; label: string }[] = [
-  { value: "all", label: "Toutes" },
-  { value: "draft", label: "Brouillons" },
-  { value: "sent", label: "Envoyées" },
-  { value: "paid", label: "Payées" },
-  { value: "overdue", label: "En retard" },
+const FILTERS: { value: Filter; labelKey: string }[] = [
+  { value: "all", labelKey: "invoices.filterAll" },
+  { value: "draft", labelKey: "invoices.filterDraft" },
+  { value: "sent", labelKey: "invoices.filterSent" },
+  { value: "paid", labelKey: "invoices.filterPaid" },
+  { value: "overdue", labelKey: "invoices.filterOverdue" },
 ];
 
 const STATUS_COUNTS: Record<Filter, (inv: InvoiceStatus) => boolean> = {
@@ -29,6 +30,7 @@ const STATUS_COUNTS: Record<Filter, (inv: InvoiceStatus) => boolean> = {
 };
 
 function InvoicesContent() {
+  const { t } = useTranslation();
   const { invoices, company } = useStore();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,10 +68,10 @@ function InvoicesContent() {
       {/* En-tête */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-          Factures
+          {t("invoices.title")}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Gérez et suivez l&apos;ensemble de vos factures.
+          {t("invoices.subtitle")}
         </p>
       </div>
 
@@ -88,7 +90,7 @@ function InvoicesContent() {
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 ring-1 ring-inset ring-slate-200 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60"
                 }`}
               >
-                {f.label}
+                {t(f.labelKey)}
                 <span
                   className={`rounded-full px-1.5 text-xs font-semibold ${
                     active
@@ -110,7 +112,7 @@ function InvoicesContent() {
           />
           <input
             type="search"
-            placeholder="Rechercher un client ou un numéro…"
+            placeholder={t("invoices.searchPlaceholder")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-2 pl-9 pr-3 text-sm text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
@@ -121,15 +123,15 @@ function InvoicesContent() {
       {filtered.length === 0 ? (
         <EmptyState
           icon={FileText}
-          title="Aucune facture trouvée"
-          description="Aucune facture ne correspond à vos critères. Essayez d'autres filtres ou créez une nouvelle facture."
+          title={t("invoices.empty")}
+          description={t("invoices.emptyDesc")}
           action={
             <Link
               href="/invoices/new"
               className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
             >
               <Plus className="size-4" aria-hidden="true" />
-              Nouvelle facture
+              {t("invoices.newInvoice")}
             </Link>
           }
         />
@@ -155,8 +157,7 @@ function InvoicesContent() {
                         {inv.client.name}
                       </p>
                       <p className="mt-1.5 text-xs text-slate-400 dark:text-slate-500">
-                        Émise le {formatDate(inv.issueDate, company.dateFormat)} · Échéance le{" "}
-                        {formatDate(inv.dueDate, company.dateFormat)}
+                        {t("invoices.issuedOn", { date: formatDate(inv.issueDate, company.dateFormat) })} · {t("invoices.dueOn", { date: formatDate(inv.dueDate, company.dateFormat) })}
                       </p>
                     </div>
                     <p className="shrink-0 text-sm font-bold text-slate-900 dark:text-slate-100">
@@ -173,11 +174,11 @@ function InvoicesContent() {
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-y border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  <th className="px-6 py-3">Facture</th>
-                  <th className="px-4 py-3">Émise le</th>
-                  <th className="px-4 py-3">Échéance</th>
-                  <th className="px-4 py-3">Statut</th>
-                  <th className="px-6 py-3 text-right">Montant</th>
+                  <th className="px-6 py-3">{t("invoices.colInvoice")}</th>
+                  <th className="px-4 py-3">{t("invoices.colIssued")}</th>
+                  <th className="px-4 py-3">{t("invoices.colDue")}</th>
+                  <th className="px-4 py-3">{t("invoices.colStatus")}</th>
+                  <th className="px-6 py-3 text-right">{t("invoices.colAmount")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">

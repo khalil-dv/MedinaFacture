@@ -7,10 +7,12 @@ import { LogIn } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Input, Label } from "@/components/ui/Fields";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
   const next = searchParams.get("next") ?? "/dashboard";
 
   const [email, setEmail] = useState("");
@@ -35,7 +37,7 @@ function LoginForm() {
     if (error) {
       setError(
         error.message === "Invalid login credentials"
-          ? "Email ou mot de passe incorrect."
+          ? t("login.badCredentials")
           : error.message,
       );
       setLoading(false);
@@ -49,26 +51,25 @@ function LoginForm() {
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-8">
       <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-        Bon retour parmi nous
+        {t("login.title")}
       </h1>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Connectez-vous pour gérer vos factures.
+        {t("login.subtitle")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
         {reset && (
           <p className="rounded-lg bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
-            Mot de passe mis à jour. Connectez-vous avec votre nouveau mot de
-            passe.
+            {t("login.resetSuccess")}
           </p>
         )}
         {authError && (
           <p className="rounded-lg bg-red-50 dark:bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-400">
-            Le lien est invalide ou a expiré. Réessayez.
+            {t("login.authError")}
           </p>
         )}
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("login.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -80,7 +81,7 @@ function LoginForm() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Mot de passe</Label>
+          <Label htmlFor="password">{t("login.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -96,7 +97,7 @@ function LoginForm() {
             href="/forgot-password"
             className="text-sm font-semibold text-emerald-600 hover:text-emerald-700"
           >
-            Mot de passe oublié ?
+            {t("login.forgot")}
           </Link>
         </div>
 
@@ -108,17 +109,17 @@ function LoginForm() {
 
         <Button type="submit" disabled={loading} className="w-full">
           <LogIn className="size-4" aria-hidden="true" />
-          {loading ? "Connexion…" : "Se connecter"}
+          {loading ? t("login.submitting") : t("login.submit")}
         </Button>
       </form>
 
       <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-        Pas encore de compte ?{" "}
+        {t("login.noAccount")}{" "}
         <Link
           href="/signup"
           className="font-semibold text-emerald-600 hover:text-emerald-700"
         >
-          Créer un compte
+          {t("login.createAccount")}
         </Link>
       </p>
     </div>

@@ -7,9 +7,11 @@ import { ArrowLeft, KeyRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Input, Label } from "@/components/ui/Fields";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string>();
@@ -20,11 +22,11 @@ export default function ResetPasswordPage() {
     setError(undefined);
 
     if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      setError(t("reset.passwordShort"));
       return;
     }
     if (password !== confirm) {
-      setError("Les mots de passe ne correspondent pas.");
+      setError(t("reset.passwordMismatch"));
       return;
     }
 
@@ -36,7 +38,7 @@ export default function ResetPasswordPage() {
     if (updateError) {
       setError(
         updateError.message === "User not found"
-          ? "Le lien est invalide ou a expiré. Demandez un nouveau lien via « Mot de passe oublié ? »."
+          ? t("reset.invalidLink")
           : updateError.message,
       );
       setLoading(false);
@@ -51,15 +53,15 @@ export default function ResetPasswordPage() {
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-8">
       <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-        Nouveau mot de passe
+        {t("reset.title")}
       </h1>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Choisissez un nouveau mot de passe pour votre compte.
+        {t("reset.subtitle")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
         <div>
-          <Label htmlFor="password">Nouveau mot de passe</Label>
+          <Label htmlFor="password">{t("reset.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -71,7 +73,7 @@ export default function ResetPasswordPage() {
           />
         </div>
         <div>
-          <Label htmlFor="confirm">Confirmer le mot de passe</Label>
+          <Label htmlFor="confirm">{t("reset.confirm")}</Label>
           <Input
             id="confirm"
             type="password"
@@ -91,7 +93,7 @@ export default function ResetPasswordPage() {
 
         <Button type="submit" disabled={loading} className="w-full">
           <KeyRound className="size-4" aria-hidden="true" />
-          {loading ? "Mise à jour…" : "Réinitialiser le mot de passe"}
+          {loading ? t("reset.submitting") : t("reset.submit")}
         </Button>
       </form>
 
@@ -101,7 +103,7 @@ export default function ResetPasswordPage() {
           className="inline-flex items-center gap-1 font-semibold text-emerald-600 hover:text-emerald-700"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
-          Retour à la connexion
+          {t("reset.back")}
         </Link>
       </p>
     </div>

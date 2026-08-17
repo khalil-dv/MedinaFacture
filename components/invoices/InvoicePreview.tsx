@@ -5,6 +5,7 @@ import { Download, Save } from "lucide-react";
 import type { MockClient } from "@/lib/data";
 import type { CompanySettings } from "@/lib/store";
 import { formatDate, formatMoney, formatQuantity, initialsOf } from "@/lib/format";
+import { useTranslation } from "@/lib/i18n";
 
 interface InvoicePreviewProps {
   company: CompanySettings;
@@ -35,14 +36,15 @@ export function InvoicePreview({
   onSave,
   saving = false,
 }: InvoicePreviewProps) {
+  const { t } = useTranslation();
   const initials = initialsOf(company.name);
 
   const paymentDetails: { label: string; value: string }[] = [
-    { label: "Virement bancaire", value: company.bankAccountName },
-    { label: "Banque", value: company.bankName },
-    { label: "N° de compte", value: company.bankAccountNumber },
-    { label: "Wave", value: company.waveNumber },
-    { label: "Orange Money", value: company.orangeMoneyNumber },
+    { label: t("settings.bankAccountName"), value: company.bankAccountName },
+    { label: t("settings.bankName"), value: company.bankName },
+    { label: t("settings.bankAccountNumber"), value: company.bankAccountNumber },
+    { label: t("settings.waveNumber"), value: company.waveNumber },
+    { label: t("settings.orangeMoney"), value: company.orangeMoneyNumber },
   ].filter((detail) => detail.value);
 
   const [downloading, setDownloading] = useState(false);
@@ -79,10 +81,10 @@ export function InvoicePreview({
       <div className="flex items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            Aperçu de la facture
+            {t("settings.invoicing")}
           </h2>
           <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">
-            Mis à jour en temps réel pendant votre saisie.
+            {t("common.loading")}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -94,7 +96,7 @@ export function InvoicePreview({
               className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-600 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 shadow-sm transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-500/10 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Save className="size-3.5" aria-hidden="true" />
-              {saving ? "Enregistrement…" : "Enregistrer"}
+              {saving ? t("common.save") + "…" : t("common.save")}
             </button>
           )}
           <button
@@ -104,7 +106,7 @@ export function InvoicePreview({
             className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 disabled:opacity-60"
           >
             <Download className="size-3.5" aria-hidden="true" />
-            {downloading ? "Préparation…" : "Télécharger"}
+            {downloading ? t("settings.saving") : t("common.save")}
           </button>
         </div>
       </div>
@@ -147,26 +149,26 @@ export function InvoicePreview({
 
           <dl className="shrink-0 space-y-1 text-xs">
             <p className="text-right text-sm font-extrabold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
-              Facture
+              {t("clients.invoices")}
             </p>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">N°</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("settings.invoicePrefix")}</dt>
               <dd className="font-semibold text-slate-800 dark:text-slate-200">{number}</dd>
             </div>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">Émise le</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("clientForm.email")}</dt>
               <dd className="text-slate-600 dark:text-slate-400">
                 {issueDate ? formatDate(issueDate, company.dateFormat) : "—"}
               </dd>
             </div>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">Échéance</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("clientForm.phone")}</dt>
               <dd className="text-slate-600 dark:text-slate-400">
                 {dueDate ? formatDate(dueDate, company.dateFormat) : "—"}
               </dd>
             </div>
             <div className="flex justify-end gap-3">
-              <dt className="text-slate-400 dark:text-slate-500">Délai</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{t("settings.dueDays")}</dt>
               <dd className="text-slate-600 dark:text-slate-400">{company.paymentDueDays} jours</dd>
             </div>
           </dl>
@@ -176,7 +178,7 @@ export function InvoicePreview({
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/50 p-3">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              Facturé à
+              {t("clientForm.newTitle")}
             </p>
             {client ? (
               <>
@@ -196,14 +198,14 @@ export function InvoicePreview({
               </>
             ) : (
               <p className="mt-1 text-sm text-slate-400 dark:text-slate-500">
-                Sélectionnez un client…
+                {t("clientForm.name")}
               </p>
             )}
           </div>
 
           <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/50 p-3">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              Paiement
+              {t("settings.defaultPaymentMethod")}
             </p>
             <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-200">
               {paymentMethod}
@@ -219,9 +221,9 @@ export function InvoicePreview({
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-[10px] uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                <th className="px-3 py-2 font-semibold">Description</th>
-                <th className="px-3 py-2 text-right font-semibold">Qté</th>
-                <th className="px-3 py-2 text-right font-semibold">P.U.</th>
+                <th className="px-3 py-2 font-semibold">{t("clientForm.name")}</th>
+                <th className="px-3 py-2 text-right font-semibold">{t("clientForm.phone")}</th>
+                <th className="px-3 py-2 text-right font-semibold">{t("clientForm.email")}</th>
                 <th className="px-3 py-2 text-right font-semibold">Total</th>
               </tr>
             </thead>
@@ -260,7 +262,7 @@ export function InvoicePreview({
         {/* Totaux */}
         <dl className="mt-4 ml-auto w-full max-w-[15rem] space-y-1.5 text-sm">
           <div className="flex justify-between">
-            <dt className="text-slate-500 dark:text-slate-400">Sous-total</dt>
+              <dt className="text-slate-500 dark:text-slate-400">{t("clientForm.name")}</dt>
             <dd className="font-medium text-slate-800 dark:text-slate-200">
               {formatMoney(totals.subtotal, company.currency)}
             </dd>
@@ -272,7 +274,7 @@ export function InvoicePreview({
             </dd>
           </div>
           <div className="flex justify-between rounded-lg bg-emerald-600/5 px-3 py-2 text-base ring-1 ring-emerald-600/10">
-            <dt className="font-semibold text-slate-900 dark:text-slate-100">Total TTC</dt>
+            <dt className="font-semibold text-slate-900 dark:text-slate-100">{t("clientForm.save")}</dt>
             <dd className="font-bold text-emerald-700 dark:text-emerald-400">
               {formatMoney(totals.total, company.currency)}
             </dd>
@@ -285,7 +287,7 @@ export function InvoicePreview({
             <p className="whitespace-pre-line text-slate-500 dark:text-slate-400">{notes}</p>
           ) : (
             <p className="text-slate-400 dark:text-slate-500">
-              Paiement : {paymentMethod}, sous {company.paymentDueDays} jours.
+              {t("settings.defaultPaymentMethod")}: {paymentMethod}, {company.paymentDueDays}j.
             </p>
           )}
         </div>
@@ -294,7 +296,7 @@ export function InvoicePreview({
         {paymentDetails.length > 0 && (
           <div className="mt-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/50 p-3">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              Coordonnées de paiement
+              {t("settings.paymentInfo")}
             </p>
             <dl className="mt-1.5 space-y-1">
               {paymentDetails.map((detail) => (
@@ -315,7 +317,7 @@ export function InvoicePreview({
         )}
 
         <p className="mt-4 border-t border-slate-100 dark:border-slate-800 pt-3 text-[10px] text-slate-400 dark:text-slate-500">
-          {company.name} — {company.taxId || "Sans N° contribuable"} — {company.email}
+          {company.name} — {company.taxId || t("settings.taxId")} — {company.email}
         </p>
       </div>
     </div>

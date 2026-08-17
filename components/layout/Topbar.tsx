@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, Menu, Moon, Plus, Search, Sun } from "lucide-react";
+import { Bell, Globe, Menu, Moon, Plus, Search, Sun } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { useTheme } from "@/lib/theme";
+import { useTranslation } from "@/lib/i18n";
 import { getNotifications } from "@/lib/notifications";
 import { initialsOf } from "@/lib/format";
 
@@ -17,8 +18,9 @@ interface TopbarProps {
 export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
   const { company, user, invoices } = useStore();
   const { theme, toggleTheme } = useTheme();
+  const { t, lang, toggleLang } = useTranslation();
   const router = useRouter();
-  const displayName = user.fullName || company.ownerName || "Utilisateur";
+  const displayName = user.fullName || company.ownerName || t("nav.user");
   const hasNotifications = getNotifications(invoices).length > 0;
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +35,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
       {/* Hamburger */}
       <button
         onClick={onMenuClick}
-        aria-label="Ouvrir le menu"
+        aria-label={t("topbar.openMenu")}
         className={`rounded-lg p-2 text-slate-600 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 ${
           showMenuAlways ? "" : "lg:hidden"
         }`}
@@ -65,7 +67,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
         <input
           name="query"
           type="search"
-          placeholder="Rechercher une facture…"
+          placeholder={t("topbar.searchPlaceholder")}
           className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 py-2 pl-9 pr-3 text-sm text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:focus:bg-slate-900"
         />
       </form>
@@ -77,15 +79,15 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
           className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:px-4"
         >
           <Plus className="size-4" aria-hidden="true" />
-          <span className="hidden sm:inline">Nouvelle facture</span>
-          <span className="sm:hidden">Facture</span>
+          <span className="hidden sm:inline">{t("topbar.newInvoice")}</span>
+          <span className="sm:hidden">{t("topbar.newInvoiceShort")}</span>
         </Link>
 
         {/* Thème */}
         <button
           onClick={toggleTheme}
-          aria-label={theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"}
-          title={theme === "dark" ? "Mode clair" : "Mode sombre"}
+          aria-label={theme === "dark" ? t("topbar.themeLightAria") : t("topbar.themeDarkAria")}
+          title={theme === "dark" ? t("topbar.themeLight") : t("topbar.themeDark")}
           className="rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
         >
           {theme === "dark" ? (
@@ -95,10 +97,20 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
           )}
         </button>
 
+        {/* Langue */}
+        <button
+          onClick={toggleLang}
+          aria-label="Language"
+          title={lang === "fr" ? "English" : "Français"}
+          className="rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
+        >
+          <Globe className="size-5" aria-hidden="true" />
+        </button>
+
         {/* Notifications */}
         <Link
           href="/notifications"
-          aria-label="Notifications"
+          aria-label={t("topbar.notifications")}
           className="relative rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
         >
           <Bell className="size-5" aria-hidden="true" />
@@ -111,7 +123,7 @@ export function Topbar({ onMenuClick, showMenuAlways = false }: TopbarProps) {
 
         {/* Avatar */}
         <button
-          aria-label="Profil"
+          aria-label={t("topbar.profile")}
           className="grid size-8 place-items-center rounded-full bg-emerald-600 text-xs font-bold text-white transition-opacity hover:opacity-90"
         >
           {initialsOf(displayName)}

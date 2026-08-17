@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Modal } from "@/components/ui/Modal";
 import { FieldError, Input, Label, Textarea } from "@/components/ui/Fields";
+import { useTranslation } from "@/lib/i18n";
 
 const clientSchema = z.object({
   name: z.string().trim().min(1, "Le nom est requis"),
@@ -47,6 +48,7 @@ const EMPTY_FORM: ClientFormState = { name: "", email: "", phone: "", address: "
 export default function ClientsPage() {
   const { clients, invoices, company, createClient, updateClient, deleteClient } =
     useStore();
+  const { t } = useTranslation();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<MockClient | null>(null);
@@ -154,15 +156,15 @@ export default function ClientsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Clients
+            {t("clients.title")}
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            {clients.length} client(s) dans votre répertoire.
+            {t("clients.subtitle")}
           </p>
         </div>
         <Button onClick={openAdd}>
           <Plus className="size-4" aria-hidden="true" />
-          Ajouter un client
+          {t("clients.newClient")}
         </Button>
       </div>
 
@@ -176,12 +178,12 @@ export default function ClientsPage() {
       {clients.length === 0 ? (
         <EmptyState
           icon={Users}
-          title="Aucun client"
-          description="Ajoutez votre premier client pour commencer à facturer."
+          title={t("clients.empty")}
+          description={t("clients.emptyDesc")}
           action={
             <Button onClick={openAdd}>
               <Plus className="size-4" aria-hidden="true" />
-              Ajouter un client
+              {t("clients.addFirst")}
             </Button>
           }
         />
@@ -210,14 +212,14 @@ export default function ClientsPage() {
                     <div className="flex shrink-0 items-center gap-1">
                       <button
                         onClick={() => openEdit(client)}
-                        aria-label={`Modifier ${client.name}`}
+                        aria-label={`${t("clients.edit")} ${client.name}`}
                         className="rounded-lg p-2 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
                       >
                         <Pencil className="size-4" aria-hidden="true" />
                       </button>
                       <button
                         onClick={() => requestDelete(client)}
-                        aria-label={`Supprimer ${client.name}`}
+                        aria-label={`${t("clients.delete")} ${client.name}`}
                         className="rounded-lg p-2 text-slate-400 dark:text-slate-500 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
                       >
                         <Trash2 className="size-4" aria-hidden="true" />
@@ -225,7 +227,7 @@ export default function ClientsPage() {
                     </div>
                   </div>
                   <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
-                    {stats ? `${stats.count} facture(s) · ${formatMoney(stats.total, company.currency)}` : "Aucune facture"}
+                    {stats ? `${stats.count} ${t("clients.hasInvoices")} · ${formatMoney(stats.total, company.currency)}` : t("clients.empty")}
                   </p>
                 </li>
               );
@@ -237,10 +239,10 @@ export default function ClientsPage() {
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-y border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  <th className="px-6 py-3">Client</th>
-                  <th className="px-4 py-3">Téléphone</th>
-                  <th className="px-4 py-3">Adresse</th>
-                  <th className="px-4 py-3 text-center">Factures</th>
+                  <th className="px-6 py-3">{t("clients.client")}</th>
+                  <th className="px-4 py-3">{t("clients.phone")}</th>
+                  <th className="px-4 py-3">{t("clients.email")}</th>
+                  <th className="px-4 py-3 text-center">{t("clients.invoices")}</th>
                   <th className="px-4 py-3 text-right">Total facturé</th>
                   <th className="px-6 py-3 text-right">Actions</th>
                 </tr>
@@ -287,14 +289,14 @@ export default function ClientsPage() {
                         <div className="flex justify-end gap-1">
                           <button
                             onClick={() => openEdit(client)}
-                            aria-label={`Modifier ${client.name}`}
+                            aria-label={`${t("clients.edit")} ${client.name}`}
                             className="rounded-lg p-2 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
                           >
                             <Pencil className="size-4" aria-hidden="true" />
                           </button>
                           <button
                             onClick={() => requestDelete(client)}
-                            aria-label={`Supprimer ${client.name}`}
+                            aria-label={`${t("clients.delete")} ${client.name}`}
                             className="rounded-lg p-2 text-slate-400 dark:text-slate-500 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
                           >
                             <Trash2 className="size-4" aria-hidden="true" />
@@ -314,7 +316,7 @@ export default function ClientsPage() {
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={editing ? `Modifier ${editing.name}` : "Ajouter un client"}
+        title={editing ? t("clientForm.editTitle") : t("clientForm.newTitle")}
         description={
           editing
             ? "Mettez à jour les informations du client."
@@ -323,10 +325,10 @@ export default function ClientsPage() {
       >
         <div className="space-y-4">
           <div>
-            <Label htmlFor="client-name">Nom</Label>
+            <Label htmlFor="client-name">{t("clientForm.name")}</Label>
             <Input
               id="client-name"
-              placeholder="Ex : Entreprise Ndiaye & Fils"
+              placeholder={t("clientForm.namePlaceholder")}
               value={form.name}
               onChange={(e) => {
                 setForm((prev) => ({ ...prev, name: e.target.value }));
@@ -337,7 +339,7 @@ export default function ClientsPage() {
           </div>
 
           <div>
-            <Label htmlFor="client-email">Email</Label>
+            <Label htmlFor="client-email">{t("clientForm.email")}</Label>
             <Input
               id="client-email"
               type="email"
@@ -352,7 +354,7 @@ export default function ClientsPage() {
           </div>
 
           <div>
-            <Label htmlFor="client-phone">Téléphone</Label>
+            <Label htmlFor="client-phone">{t("clientForm.phone")}</Label>
             <Input
               id="client-phone"
               type="tel"
@@ -367,7 +369,7 @@ export default function ClientsPage() {
           </div>
 
           <div>
-            <Label htmlFor="client-address">Adresse</Label>
+            <Label htmlFor="client-address">{t("clientForm.address")}</Label>
             <Textarea
               id="client-address"
               rows={2}
@@ -389,14 +391,14 @@ export default function ClientsPage() {
 
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="secondary" onClick={() => setModalOpen(false)}>
-              Annuler
+              {t("clientForm.cancel")}
             </Button>
             <Button onClick={handleSubmit} disabled={saving}>
               {saving
-                ? "Enregistrement…"
+                ? t("common.save") + "…"
                 : editing
-                  ? "Enregistrer"
-                  : "Ajouter le client"}
+                  ? t("clientForm.save")
+                  : t("clients.newClient")}
             </Button>
           </div>
         </div>
@@ -411,7 +413,7 @@ export default function ClientsPage() {
             ? `Le client « ${deleteTarget.name} » sera définitivement supprimé de votre répertoire.`
             : ""
         }
-        confirmLabel="Supprimer"
+        confirmLabel={t("common.delete")}
         onConfirm={handleDelete}
         onClose={() => setDeleteTarget(null)}
       />

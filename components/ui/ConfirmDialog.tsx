@@ -3,6 +3,7 @@
 import { AlertTriangle } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -18,11 +19,13 @@ export function ConfirmDialog({
   open,
   title,
   description,
-  confirmLabel = "Confirmer",
+  confirmLabel,
   tone = "danger",
   onConfirm,
   onClose,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation();
+  const resolvedLabel = confirmLabel ?? t("common.confirm");
   return (
     <Modal open={open} onClose={onClose} title={title}>
       <div className="flex items-start gap-3">
@@ -40,10 +43,10 @@ export function ConfirmDialog({
 
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="secondary" onClick={onClose}>
-          Annuler
+          {t("common.cancel")}
         </Button>
         <Button variant={tone} onClick={onConfirm}>
-          {confirmLabel}
+          {resolvedLabel}
         </Button>
       </div>
     </Modal>

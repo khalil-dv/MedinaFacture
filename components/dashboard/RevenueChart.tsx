@@ -1,7 +1,10 @@
+"use client";
+
 import { memo } from "react";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import type { MockInvoice } from "@/lib/data";
 import { formatCompact, formatMoney } from "@/lib/format";
+import { useTranslation } from "@/lib/i18n";
 
 interface RevenueChartProps {
   invoices: MockInvoice[];
@@ -16,6 +19,7 @@ export const RevenueChart = memo(function RevenueChart({
   invoices,
   currency = "XOF",
 }: RevenueChartProps) {
+  const { t } = useTranslation();
   const now = new Date();
   const months: { key: string; label: string }[] = [];
   for (let i = 5; i >= 0; i--) {
@@ -57,7 +61,7 @@ export const RevenueChart = memo(function RevenueChart({
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-            Recettes des 6 derniers mois
+            {t("dash.revenue")}
           </h2>
           <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
             Montants facturés, toutes taxes comprises

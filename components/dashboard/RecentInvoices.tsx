@@ -1,9 +1,12 @@
+"use client";
+
 import { memo } from "react";
 import Link from "next/link";
 import { ArrowUpRight, ReceiptText } from "lucide-react";
 import type { MockInvoice } from "@/lib/data";
 import { formatDate, formatMoney } from "@/lib/format";
 import { StatusBadge } from "@/components/ui/Badge";
+import { useTranslation } from "@/lib/i18n";
 
 interface RecentInvoicesProps {
   invoices: MockInvoice[];
@@ -16,6 +19,7 @@ export const RecentInvoices = memo(function RecentInvoices({
   currency = "XOF",
   dateFormat,
 }: RecentInvoicesProps) {
+  const { t } = useTranslation();
   const recent = [...invoices]
     .sort((a, b) => b.issueDate.localeCompare(a.issueDate))
     .slice(0, 6);
@@ -32,7 +36,7 @@ export const RecentInvoices = memo(function RecentInvoices({
           </div>
           <div>
             <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-              Dernières factures
+              {t("dash.recentInvoices")}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {invoices.length} factures au total
@@ -43,7 +47,7 @@ export const RecentInvoices = memo(function RecentInvoices({
           href="/invoices"
           className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-500/10"
         >
-          Voir tout
+          {t("dash.viewAll")}
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </Link>
       </div>

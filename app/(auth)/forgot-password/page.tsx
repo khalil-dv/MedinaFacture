@@ -6,8 +6,10 @@ import { ArrowLeft, MailCheck, Send } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Input, Label } from "@/components/ui/Fields";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string>();
   const [sent, setSent] = useState(false);
@@ -39,10 +41,10 @@ export default function ForgotPasswordPage() {
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-8">
       <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-        Mot de passe oublié
+        {t("forgot.title")}
       </h1>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Entrez votre email pour recevoir un lien de réinitialisation.
+        {t("forgot.subtitle")}
       </p>
 
       {sent ? (
@@ -50,9 +52,7 @@ export default function ForgotPasswordPage() {
           <div className="flex items-start gap-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-400">
             <MailCheck className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
             <p>
-              Si un compte existe pour <strong>{email.trim()}</strong>, un lien
-              de réinitialisation vient d&apos;être envoyé. Cliquez dessus, puis
-              choisissez votre nouveau mot de passe.
+              {t("forgot.sent", { email: email.trim() })}
             </p>
           </div>
           <Button
@@ -60,13 +60,13 @@ export default function ForgotPasswordPage() {
             className="w-full"
             onClick={() => setSent(false)}
           >
-            Renvoyer l&apos;email
+            {t("forgot.resend")}
           </Button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("forgot.email")}</Label>
             <Input
               id="email"
               type="email"
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
 
           <Button type="submit" disabled={loading} className="w-full">
             <Send className="size-4" aria-hidden="true" />
-            {loading ? "Envoi…" : "Envoyer le lien"}
+            {loading ? t("forgot.submitting") : t("forgot.submit")}
           </Button>
         </form>
       )}
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
           className="inline-flex items-center gap-1 font-semibold text-emerald-600 hover:text-emerald-700"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
-          Retour à la connexion
+          {t("forgot.back")}
         </Link>
       </p>
     </div>

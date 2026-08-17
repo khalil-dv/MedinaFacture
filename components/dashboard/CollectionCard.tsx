@@ -1,9 +1,12 @@
+"use client";
+
 import { memo } from "react";
 import { Wallet } from "lucide-react";
 import type { MockInvoice } from "@/lib/data";
 import { computeStats } from "@/lib/data";
 import { formatMoney, formatDate } from "@/lib/format";
 import { StatusBadge } from "@/components/ui/Badge";
+import { useTranslation } from "@/lib/i18n";
 
 interface CollectionCardProps {
   invoices: MockInvoice[];
@@ -16,6 +19,7 @@ export const CollectionCard = memo(function CollectionCard({
   currency = "XOF",
   dateFormat,
 }: CollectionCardProps) {
+  const { t } = useTranslation();
   const stats = computeStats(invoices);
   const unpaid = invoices
     .filter((inv) => inv.status === "sent" || inv.status === "overdue")
@@ -29,7 +33,7 @@ export const CollectionCard = memo(function CollectionCard({
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-            Taux de recouvrement
+            {t("dash.collected")}
           </h2>
           <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
             Paiements à suivre

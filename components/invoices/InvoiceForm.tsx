@@ -23,6 +23,7 @@ import {
   loadInvoiceDraft,
   saveInvoiceDraft,
 } from "@/lib/invoice-draft";
+import { useTranslation } from "@/lib/i18n";
 
 interface LineDraft {
   id: string;
@@ -84,6 +85,7 @@ function parseNumeric(value: string): number {
 
 export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: InvoiceFormProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const { clients, invoices, company, user, createInvoice, updateInvoice, createClient } =
     useStore();
 
@@ -467,12 +469,12 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
       {/* Client et dates */}
       <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
         <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-          Informations de la facture
+          {t("clientForm.newTitle")}
         </h2>
 
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="md:col-span-2">
-            <Label htmlFor="client">Client</Label>
+            <Label htmlFor="client">{t("clients.client")}</Label>
             <ClientCombobox
               id="client"
               clients={clients}
@@ -485,7 +487,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           </div>
 
           <div>
-            <Label htmlFor="issueDate">Date d&apos;émission</Label>
+            <Label htmlFor="issueDate">{t("clientForm.email")}</Label>
             <DatePicker
               id="issueDate"
               value={issueDate}
@@ -496,7 +498,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           </div>
 
           <div>
-            <Label htmlFor="dueDate">Date d&apos;échéance</Label>
+            <Label htmlFor="dueDate">{t("clientForm.phone")}</Label>
             <DatePicker
               id="dueDate"
               value={dueDate}
@@ -506,14 +508,14 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
             <FieldError message={errors.dueDate} />
             {autoDueDate && (
               <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-                Calculée automatiquement — délai de paiement :{" "}
-                {company.paymentDueDays} jours
+                {t("settings.dueDays")}:{" "}
+                {company.paymentDueDays}
               </p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="vatRate">Taux de TVA (%)</Label>
+            <Label htmlFor="vatRate">{t("settings.vatRate")}</Label>
             <Input
               id="vatRate"
               type="number"
@@ -528,7 +530,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           </div>
 
           <div>
-            <Label htmlFor="paymentMethod">Mode de paiement</Label>
+            <Label htmlFor="paymentMethod">{t("settings.defaultPaymentMethod")}</Label>
             <Select
               id="paymentMethod"
               value={paymentMethod}
@@ -545,7 +547,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
 
           {!isEdit && (
             <div>
-              <Label htmlFor="invoiceStatus">Statut</Label>
+              <Label htmlFor="invoiceStatus">{t("invoice.statusDraft")}</Label>
               <Select
                 id="invoiceStatus"
                 value={saveStatus}
@@ -553,8 +555,8 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
                   setSaveStatus(e.target.value as "draft" | "sent")
                 }
               >
-                <option value="draft">Brouillon</option>
-                <option value="sent">Envoyée</option>
+                <option value="draft">{t("invoice.statusDraft")}</option>
+                <option value="sent">{t("invoice.statusSent")}</option>
               </Select>
             </div>
           )}
@@ -562,7 +564,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
 
         {!isEdit && (
           <p className="mt-4 rounded-lg bg-slate-50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-500 dark:text-slate-400">
-            Numéro de facture : <span className="font-semibold">{nextNumber}</span>{" "}
+            {t("settings.invoicePrefix")}: <span className="font-semibold">{nextNumber}</span>{" "}
             (généré automatiquement)
           </p>
         )}
@@ -571,13 +573,13 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
       {/* Lignes de facture */}
       <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
         <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-          Lignes de facture
+          {t("clients.invoices")}
         </h2>
 
         <div className="mt-4 hidden grid-cols-12 gap-3 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 md:grid">
           <div className="col-span-5">Description</div>
-          <div className="col-span-2">Quantité</div>
-          <div className="col-span-2">Prix unitaire</div>
+          <div className="col-span-2">{t("clientForm.phone")}</div>
+          <div className="col-span-2">{t("clientForm.email")}</div>
           <div className="col-span-2 text-right">Total</div>
           <div className="col-span-1" />
         </div>
@@ -608,7 +610,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
                 </div>
 
                 <div className="col-span-3 md:col-span-2">
-                  <Label className="text-xs md:hidden">Quantité</Label>
+                  <Label className="text-xs md:hidden">{t("clientForm.phone")}</Label>
                   <Input
                     type="number"
                     min="0"
@@ -623,7 +625,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
                 </div>
 
                 <div className="col-span-4 md:col-span-2">
-                  <Label className="text-xs md:hidden">Prix unitaire</Label>
+                  <Label className="text-xs md:hidden">{t("clientForm.email")}</Label>
                   <Input
                     type="number"
                     min="0"
@@ -648,7 +650,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
                   <button
                     type="button"
                     onClick={() => removeLine(line.id)}
-                    aria-label="Supprimer cette ligne"
+                    aria-label={t("common.delete")}
                     className="rounded-lg p-2 text-slate-400 dark:text-slate-500 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
                   >
                     <Trash2 className="size-4" aria-hidden="true" />
@@ -667,14 +669,14 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-400 transition-colors hover:border-emerald-500 hover:text-emerald-700"
         >
           <Plus className="size-4" aria-hidden="true" />
-          Ajouter une ligne
+          {t("clients.newClient")}
         </button>
 
         {/* Totaux */}
         <div className="mt-6 flex justify-end border-t border-slate-100 dark:border-slate-800 pt-4">
           <dl className="w-full max-w-xs space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-slate-500 dark:text-slate-400">Sous-total</dt>
+              <dt className="text-slate-500 dark:text-slate-400">{t("clientForm.name")}</dt>
               <dd className="font-medium text-slate-800 dark:text-slate-200">
                 {formatMoney(totals.subtotal, company.currency)}
               </dd>
@@ -688,7 +690,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
               </dd>
             </div>
             <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-2 text-base">
-              <dt className="font-semibold text-slate-900 dark:text-slate-100">Total TTC</dt>
+              <dt className="font-semibold text-slate-900 dark:text-slate-100">{t("clientForm.save")}</dt>
               <dd className="font-bold text-slate-900 dark:text-slate-100">
                 {formatMoney(totals.total, company.currency)}
               </dd>
@@ -699,11 +701,11 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
 
       {/* Notes */}
       <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
-        <Label htmlFor="notes">Notes (optionnel)</Label>
+        <Label htmlFor="notes">{t("settings.defaultNotes")}</Label>
         <Textarea
           id="notes"
           rows={3}
-          placeholder="Conditions de paiement, références…"
+          placeholder={t("settings.defaultNotesPlaceholder")}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
@@ -717,13 +719,13 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           </p>
         )}
         <Button variant="ghost" onClick={() => (isEdit ? onCancel?.() : router.push("/invoices"))}>
-          Annuler
+          {t("common.cancel")}
         </Button>
 
         {isEdit ? (
           <Button variant="primary" onClick={() => handleSubmit("draft")} disabled={saving}>
             <Save className="size-4" aria-hidden="true" />
-            {saving ? "Enregistrement…" : "Enregistrer"}
+            {saving ? t("common.save") + "…" : t("common.save")}
           </Button>
         ) : (
           <Button
@@ -732,7 +734,7 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
             disabled={saving}
           >
             <Save className="size-4" aria-hidden="true" />
-            {saving ? "Enregistrement…" : "Enregistrer"}
+            {saving ? t("common.save") + "…" : t("common.save")}
           </Button>
         )}
       </div>
@@ -786,21 +788,21 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
       <Modal
         open={showResumeDialog}
         onClose={resumeSavedDraft}
-        title="Une facture non terminée a été trouvée"
-        description="Un brouillon de facture a été sauvegardé automatiquement. Voulez-vous le terminer ou repartir de zéro ?"
+        title={t("common.confirm")}
+        description={t("common.confirm")}
       >
         <div className="space-y-4">
           {savedDraft && (
             <div className="rounded-xl bg-slate-50 dark:bg-slate-950 p-4 text-sm text-slate-600 dark:text-slate-400">
               <ul className="space-y-1">
                 <li>
-                  Client :{" "}
+                  {t("clients.client")}:{" "}
                   <span className="font-semibold text-slate-900 dark:text-slate-100">
                     {savedDraft.clientQuery || "—"}
                   </span>
                 </li>
                 <li>
-                  Lignes :{" "}
+                  {t("clients.invoices")}:{" "}
                   <span className="font-semibold text-slate-900 dark:text-slate-100">
                     {savedDraft.lines.length}
                   </span>
@@ -810,11 +812,11 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           )}
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button variant="ghost" onClick={discardSavedDraft}>
-              Nouvelle facture
+              {t("common.cancel")}
             </Button>
             <Button onClick={resumeSavedDraft}>
               <FileClock className="size-4" aria-hidden="true" />
-              Reprendre le brouillon
+              {t("common.retry")}
             </Button>
           </div>
         </div>
@@ -823,8 +825,8 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
       <Modal
         open={Boolean(savedInvoice)}
         onClose={viewInvoice}
-        title="Facture enregistrée"
-        description="Votre facture a bien été créée et retrouvée dans la section Factures."
+        title={t("common.save")}
+        description={t("common.save")}
       >
         <div className="space-y-4">
           {savedInvoice && (
@@ -841,11 +843,11 @@ export function InvoiceForm({ invoice, onSaved, onCancel, wide = false }: Invoic
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button variant="ghost" onClick={resetForm}>
               <Plus className="size-4" aria-hidden="true" />
-              Créer une autre facture
+              {t("clients.newClient")}
             </Button>
             <Button onClick={viewInvoice}>
               <Eye className="size-4" aria-hidden="true" />
-              Voir la facture
+              {t("common.view")}
             </Button>
           </div>
         </div>

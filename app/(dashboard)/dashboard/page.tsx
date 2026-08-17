@@ -3,6 +3,7 @@
 import { AlertTriangle, Banknote, ReceiptText, Timer } from "lucide-react";
 import { computeStats } from "@/lib/data";
 import { useStore } from "@/lib/store";
+import { useTranslation } from "@/lib/i18n";
 import { formatMoney } from "@/lib/format";
 import { StatCard } from "@/components/ui/StatCard";
 import { RevenueChart } from "@/components/dashboard/RevenueChart";
@@ -14,13 +15,14 @@ function monthKey(dateStr: string): string {
 }
 
 export default function DashboardPage() {
+  const { t } = useTranslation();
   const { invoices, company, user } = useStore();
   const stats = computeStats(invoices);
   const currency = company.currency;
 
   const firstName =
     user.fullName.split(" ")[0] || company.ownerName.split(" ")[0] || "";
-  const greeting = firstName ? `Bonjour, ${firstName}` : "Bonjour";
+  const greeting = firstName ? t("dash.greeting", { name: firstName }) : t("dash.greetingSimple");
 
   const now = new Date();
   const thisKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -51,41 +53,41 @@ export default function DashboardPage() {
           {greeting}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Voici un aperçu de votre activité. {company.name}
+          {t("dash.subtitle")} {company.name}
         </p>
       </div>
 
       {/* Cartes de statistiques */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Chiffre d'affaires"
+          label={t("dash.revenue")}
           value={formatMoney(stats.billed, currency)}
           trend={trendBilled}
-          trendLabel="vs mois dernier"
+          trendLabel={t("dash.vsLastMonth")}
           icon={Banknote}
           tone="brand"
         />
         <StatCard
-          label="Encaissé"
+          label={t("dash.collected")}
           value={formatMoney(stats.collected, currency)}
           trend={trendCollected}
-          trendLabel="vs mois dernier"
+          trendLabel={t("dash.vsLastMonth")}
           icon={ReceiptText}
           tone="success"
         />
         <StatCard
-          label="En attente"
+          label={t("dash.pending")}
           value={formatMoney(stats.pending, currency)}
           trend={trendPending}
-          trendLabel="vs mois dernier"
+          trendLabel={t("dash.vsLastMonth")}
           icon={Timer}
           tone="warning"
         />
         <StatCard
-          label="En retard"
+          label={t("dash.overdue")}
           value={formatMoney(stats.overdue, currency)}
           trend={trendOverdue}
-          trendLabel="vs mois dernier"
+          trendLabel={t("dash.vsLastMonth")}
           icon={AlertTriangle}
           tone="danger"
         />

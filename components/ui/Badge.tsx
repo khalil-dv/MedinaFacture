@@ -1,5 +1,8 @@
+"use client";
+
 import { memo } from "react";
 import type { InvoiceStatus } from "@/lib/data";
+import { useTranslation } from "@/lib/i18n";
 
 const STATUS_STYLES: Record<InvoiceStatus, string> = {
   paid: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300",
@@ -16,10 +19,10 @@ const STATUS_DOT: Record<InvoiceStatus, string> = {
 };
 
 const STATUS_LABELS: Record<InvoiceStatus, string> = {
-  paid: "Payée",
-  sent: "Envoyée",
-  draft: "Brouillon",
-  overdue: "En retard",
+  paid: "invoice.statusPaid",
+  sent: "invoice.statusSent",
+  draft: "invoice.statusDraft",
+  overdue: "invoice.statusOverdue",
 };
 
 interface BadgeProps {
@@ -27,6 +30,7 @@ interface BadgeProps {
 }
 
 export const StatusBadge = memo(function StatusBadge({ status }: BadgeProps) {
+  const { t } = useTranslation();
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${STATUS_STYLES[status]}`}
@@ -35,7 +39,7 @@ export const StatusBadge = memo(function StatusBadge({ status }: BadgeProps) {
         className={`size-1.5 rounded-full ${STATUS_DOT[status]}`}
         aria-hidden="true"
       />
-      {STATUS_LABELS[status]}
+      {t(STATUS_LABELS[status])}
     </span>
   );
 });

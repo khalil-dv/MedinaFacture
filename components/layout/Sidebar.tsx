@@ -15,20 +15,22 @@ import {
 import { useStore } from "@/lib/store";
 import { createClient } from "@/lib/supabase/client";
 import { initialsOf } from "@/lib/format";
-
-const NAV_MAIN = [
-  { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { href: "/invoices", label: "Factures", icon: FileText },
-  { href: "/clients", label: "Clients", icon: Users },
-];
-
-const NAV_OTHER = [
-  { href: "/settings", label: "Paramètres", icon: Settings },
-  { href: "/support", label: "Aide et support", icon: LifeBuoy },
-];
+import { useTranslation } from "@/lib/i18n";
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const { t } = useTranslation();
+
+  const NAV_MAIN = [
+    { href: "/dashboard", label: t("nav.dashboard"), icon: LayoutDashboard },
+    { href: "/invoices", label: t("nav.invoices"), icon: FileText },
+    { href: "/clients", label: t("nav.clients"), icon: Users },
+  ];
+
+  const NAV_OTHER = [
+    { href: "/settings", label: t("nav.settings"), icon: Settings },
+    { href: "/support", label: t("nav.support"), icon: LifeBuoy },
+  ];
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -75,7 +77,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
     <nav className="flex-1 space-y-6 px-3 py-6">
       <div>
         <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-          Principal
+          {t("nav.main")}
         </p>
         <div className="space-y-1">
           {NAV_MAIN.map((item) => renderLink(item.href, item.label, item.icon))}
@@ -84,7 +86,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
 
       <div>
         <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-          Gestion
+          {t("nav.management")}
         </p>
         <div className="space-y-1">
           {NAV_OTHER.map((item) =>
@@ -99,9 +101,10 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { company, user } = useStore();
   const router = useRouter();
+  const { t } = useTranslation();
   const [signingOut, setSigningOut] = useState(false);
 
-  const displayName = user.fullName || company.ownerName || "Utilisateur";
+  const displayName = user.fullName || company.ownerName || t("nav.user");
 
   const handleLogout = async () => {
     if (signingOut) return;
@@ -138,7 +141,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           </div>
           <Link
             href="/settings"
-            aria-label="Paramètres"
+            aria-label={t("nav.settingsAria")}
             className="rounded-lg p-1.5 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-700 hover:text-white"
           >
             <Settings className="size-4" aria-hidden="true" />
@@ -150,7 +153,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-red-400"
         >
           <LogOut className="size-4" aria-hidden="true" />
-          {signingOut ? "Déconnexion…" : "Se déconnecter"}
+          {signingOut ? t("nav.loggingOut") : t("nav.logout")}
         </button>
       </div>
     </>
@@ -165,6 +168,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose, drawerAlways = false }: SidebarProps) {
+  const { t } = useTranslation();
   return (
     <>
       {/* Sidebar desktop */}
@@ -189,7 +193,7 @@ export function Sidebar({ open, onClose, drawerAlways = false }: SidebarProps) {
           <aside className="animate-slide-in-left absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-slate-900 shadow-2xl">
             <button
               onClick={onClose}
-              aria-label="Fermer le menu"
+              aria-label={t("nav.close")}
               className="absolute right-3 top-4 rounded-lg p-1.5 text-slate-400 dark:text-slate-500 transition-colors hover:bg-slate-800 hover:text-white"
             >
               <X className="size-5" aria-hidden="true" />

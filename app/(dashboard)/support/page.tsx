@@ -14,84 +14,73 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+import { useTranslation } from "@/lib/i18n";
 
 const FAQS = [
-  {
-    q: "Comment créer ma première facture ?",
-    a: "Cliquez sur « Nouvelle facture » en haut à droite, sélectionnez un client, ajoutez vos prestations avec leurs quantités et prix, puis enregistrez comme brouillon ou envoyez directement. Le total, la TVA et la date d'échéance sont calculés automatiquement.",
-  },
-  {
-    q: "Comment marquer une facture comme payée ?",
-    a: "Ouvrez la facture depuis la liste, puis changez son statut en « Payée ». Le montant restant dû est mis à jour automatiquement, et le paiement apparaît dans vos statistiques.",
-  },
-  {
-    q: "Mes clients peuvent-ils payer via mobile money (Wave, Orange Money) ?",
-    a: "Oui. Définissez votre méthode de paiement préférée dans Paramètres → Modèles de facturation. Les informations de paiement (numéro Wave ou Orange Money) sont ensuite reprises sur vos factures.",
-  },
-  {
-    q: "La TVA est-elle calculée automatiquement ?",
-      a: "Oui, chaque facture applique le taux de TVA par défaut défini dans vos Paramètres (18 % par défaut). Vous pouvez aussi le modifier facture par facture. Les montants sont arrondis, sans centimes.",
-  },
-  {
-    q: "Mes données sont-elles en sécurité ?",
-    a: "Toutes vos données (clients, factures, réglages) sont enregistrées localement sur votre appareil et restent privées. Nous n'avons pas accès à vos informations et rien n'est envoyé à des serveurs tiers.",
-  },
+  { qKey: "support.q1", aKey: "support.a1" },
+  { qKey: "support.q2", aKey: "support.a2" },
+  { qKey: "support.q3", aKey: "support.a3" },
+  { qKey: "support.q4", aKey: "support.a4" },
 ];
 
 const CONTACTS = [
   {
     icon: Mail,
-    title: "Par email",
+    titleKey: "support.emailUs",
+    key: "email",
     value: "support@medinafacture.sn",
-    hint: "Réponse sous 24 h ouvrées.",
+    hintKey: "support.responseTime",
   },
   {
     icon: Phone,
-    title: "Par téléphone / WhatsApp",
+    titleKey: "support.contact",
+    key: "phone",
     value: "+221 77 123 45 67",
-    hint: "Lundi–Vendredi, 8 h – 18 h.",
+    hintKey: "support.responseTime",
   },
   {
     icon: MessageCircle,
-    title: "Chat en ligne",
+    titleKey: "support.contact",
+    key: "chat",
     value: "Disponible dans l'application",
-    hint: "Réponse immédiate pendant les heures ouvrées.",
-  },
-];
-
-const GUIDES = [
-  {
-    href: "/invoices/new",
-    icon: FileText,
-    title: "Créer une facture",
-    description: "Émettez votre première facture en quelques secondes.",
-  },
-  {
-    href: "/clients",
-    icon: Users,
-    title: "Gérer les clients",
-    description: "Ajoutez et organisez votre carnet d'adresses.",
-  },
-  {
-    href: "/settings",
-    icon: Settings,
-    title: "Configurer l'application",
-    description: "Devise, TVA, préfixes et modèle de facture.",
+    hintKey: "support.responseTime",
   },
 ];
 
 export default function SupportPage() {
+  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const GUIDES = [
+    {
+      href: "/invoices/new",
+      icon: FileText,
+      title: "Créer une facture",
+      description: "Émettez votre première facture en quelques secondes.",
+    },
+    {
+      href: "/clients",
+      icon: Users,
+      title: "Gérer les clients",
+      description: "Ajoutez et organisez votre carnet d'adresses.",
+    },
+    {
+      href: "/settings",
+      icon: Settings,
+      title: "Configurer l'application",
+      description: "Devise, TVA, préfixes et modèle de facture.",
+    },
+  ];
 
   return (
     <div className="space-y-6">
       {/* En-tête */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-          Aide et support
+          {t("support.title")}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Des réponses à vos questions, des guides rapides et nos coordonnées.
+          {t("support.subtitle")}
         </p>
       </div>
 
@@ -106,10 +95,10 @@ export default function SupportPage() {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                  Questions fréquentes
+                  {t("support.faq")}
                 </h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Les réponses aux questions les plus courantes.
+                  {t("support.subtitle")}
                 </p>
               </div>
             </div>
@@ -118,7 +107,7 @@ export default function SupportPage() {
               {FAQS.map((faq, index) => {
                 const open = openIndex === index;
                 return (
-                  <div key={faq.q}>
+                  <div key={faq.qKey}>
                     <button
                       type="button"
                       onClick={() => setOpenIndex(open ? null : index)}
@@ -126,7 +115,7 @@ export default function SupportPage() {
                       className="flex w-full items-center justify-between gap-3 py-4 text-left"
                     >
                       <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
-                        {faq.q}
+                        {t(faq.qKey)}
                       </span>
                       <ChevronDown
                         className={`size-5 shrink-0 text-slate-400 dark:text-slate-500 transition-transform ${
@@ -137,7 +126,7 @@ export default function SupportPage() {
                     </button>
                     {open && (
                       <p className="pb-4 pr-8 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                        {faq.a}
+                        {t(faq.aKey)}
                       </p>
                     )}
                   </div>
@@ -154,10 +143,10 @@ export default function SupportPage() {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                  Guides rapides
+                  {t("support.title")}
                 </h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Les actions essentielles pas à pas.
+                  {t("support.subtitle")}
                 </p>
               </div>
             </div>
@@ -216,10 +205,10 @@ export default function SupportPage() {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                  Nous contacter
+                  {t("support.contact")}
                 </h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Une question ? On est là pour vous aider.
+                  {t("support.subtitle")}
                 </p>
               </div>
             </div>
@@ -227,7 +216,7 @@ export default function SupportPage() {
             <div className="mt-5 space-y-3">
               {CONTACTS.map((contact) => (
                 <div
-                  key={contact.title}
+                  key={contact.key}
                   className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-3.5"
                 >
                   <contact.icon
@@ -236,12 +225,12 @@ export default function SupportPage() {
                   />
                   <div className="min-w-0">
                     <p className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                      {contact.title}
+                      {t(contact.titleKey)}
                     </p>
                     <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-200">
                       {contact.value}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{contact.hint}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t(contact.hintKey)}</p>
                   </div>
                 </div>
               ))}

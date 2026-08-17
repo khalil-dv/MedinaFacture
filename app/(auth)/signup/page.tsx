@@ -7,9 +7,11 @@ import { UserPlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Input, Label } from "@/components/ui/Fields";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/lib/i18n";
 
 export default function SignupPage() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,11 +25,11 @@ export default function SignupPage() {
     setError(undefined);
 
     if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      setError(t("signup.passwordShort"));
       return;
     }
     if (password !== confirm) {
-      setError("Les mots de passe ne correspondent pas.");
+      setError(t("signup.passwordMismatch"));
       return;
     }
 
@@ -59,33 +61,33 @@ export default function SignupPage() {
     // Confirmation par email requise
     setLoading(false);
     setError(
-      "Un email de confirmation vous a été envoyé. Vérifiez votre boîte mail, puis reconnectez-vous.",
+      t("signup.confirmEmail"),
     );
   };
 
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-8">
       <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-        Créer un compte
+        {t("signup.title")}
       </h1>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Commencez à facturer en quelques minutes.
+        {t("signup.subtitle")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
         <div>
-          <Label htmlFor="fullName">Nom complet</Label>
+          <Label htmlFor="fullName">{t("signup.fullName")}</Label>
           <Input
             id="fullName"
             autoComplete="name"
             required
-            placeholder="Ex. Amadou Bâ"
+            placeholder={t("signup.fullNamePlaceholder")}
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />
         </div>
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("signup.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -97,19 +99,19 @@ export default function SignupPage() {
           />
         </div>
         <div>
-          <Label htmlFor="password">Mot de passe</Label>
+          <Label htmlFor="password">{t("signup.password")}</Label>
           <Input
             id="password"
             type="password"
             autoComplete="new-password"
             required
-            placeholder="8 caractères minimum"
+            placeholder={t("signup.passwordMin")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div>
-          <Label htmlFor="confirm">Confirmer le mot de passe</Label>
+          <Label htmlFor="confirm">{t("signup.confirm")}</Label>
           <Input
             id="confirm"
             type="password"
@@ -129,17 +131,17 @@ export default function SignupPage() {
 
         <Button type="submit" disabled={loading} className="w-full">
           <UserPlus className="size-4" aria-hidden="true" />
-          {loading ? "Création du compte…" : "Créer mon compte"}
+          {loading ? t("signup.submitting") : t("signup.submit")}
         </Button>
       </form>
 
       <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-        Déjà inscrit ?{" "}
+        {t("signup.hasAccount")}{" "}
         <Link
           href="/login"
           className="font-semibold text-emerald-600 hover:text-emerald-700"
         >
-          Se connecter
+          {t("signup.login")}
         </Link>
       </p>
     </div>

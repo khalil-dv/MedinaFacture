@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import type { InvoiceStatus } from "@/lib/data";
 import { useStore } from "@/lib/store";
+import { useTranslation } from "@/lib/i18n";
 import { computeLineTotal } from "@/lib/calculations";
 import { formatDate, formatMoney, formatQuantity } from "@/lib/format";
 import { StatusBadge } from "@/components/ui/Badge";
@@ -30,6 +31,7 @@ export default function InvoiceDetailPage({
   params: { id: string };
 }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     invoices,
     clients,
@@ -51,16 +53,16 @@ export default function InvoiceDetailPage({
   if (!invoice || !client) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400">Facture introuvable.</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t("invoice.notFound")}</p>
       </div>
     );
   }
 
   const statusOptions: { value: InvoiceStatus; label: string }[] = [
-    { value: "draft", label: "Brouillon" },
-    { value: "sent", label: "Envoyée" },
-    { value: "paid", label: "Payée" },
-    { value: "overdue", label: "En retard" },
+    { value: "draft", label: t("invoice.statusDraft") },
+    { value: "sent", label: t("invoice.statusSent") },
+    { value: "paid", label: t("invoice.statusPaid") },
+    { value: "overdue", label: t("invoice.statusOverdue") },
   ];
   const remaining = Math.max(invoice.total - invoice.amountPaid, 0);
 
@@ -95,7 +97,7 @@ export default function InvoiceDetailPage({
   const handlePayment = async () => {
     const amount = Number(paymentAmount.replace(",", "."));
     if (!Number.isFinite(amount) || amount <= 0) {
-      setPaymentError("Saisissez un montant valide.");
+      setPaymentError(t("payment.invalidAmount"));
       return;
     }
     setPaymentSaving(true);
@@ -107,7 +109,7 @@ export default function InvoiceDetailPage({
       setPaymentError(
         err instanceof Error
           ? err.message
-          : "Impossible d'enregistrer le paiement.",
+          : t("payment.error"),
       );
     } finally {
       setPaymentSaving(false);
@@ -121,7 +123,7 @@ export default function InvoiceDetailPage({
         <div className="flex items-center gap-3">
           <Link
             href="/invoices"
-            aria-label="Retour aux factures"
+            aria-label={t("invoice.back")}
             className="rounded-lg p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200"
           >
             <ArrowLeft className="size-5" aria-hidden="true" />
@@ -134,7 +136,7 @@ export default function InvoiceDetailPage({
               <StatusBadge status={invoice.status} />
             </div>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              Émise le {formatDate(invoice.issueDate, company.dateFormat)}
+              {t("invoice.issueDate", { date: formatDate(invoice.issueDate, company.dateFormat) })}
             </p>
           </div>
         </div>
@@ -143,7 +145,7 @@ export default function InvoiceDetailPage({
           {invoice.status !== "paid" && remaining > 0 && (
             <Button onClick={openPayment}>
               <Banknote className="size-4" aria-hidden="true" />
-              Encaisser
+              {t("invoice.collect")}
             </Button>
           )}
           <Button
@@ -151,7 +153,7 @@ export default function InvoiceDetailPage({
             onClick={() => router.push(`/invoices/${invoice.id}/edit`)}
           >
             <Pencil className="size-4" aria-hidden="true" />
-            Modifier
+            {t("invoice.edit")}
           </Button>
           <Button
             variant="secondary"
@@ -159,14 +161,14 @@ export default function InvoiceDetailPage({
             disabled={downloading}
           >
             <Download className="size-4" aria-hidden="true" />
-            {downloading ? "Préparation…" : "Télécharger"}
+            {downloading ? t("invoice.downloading") : t("invoice.download")}
           </Button>
           <Button
             variant="danger"
             onClick={() => setConfirmDelete(true)}
           >
             <Trash2 className="size-4" aria-hidden="true" />
-            Supprimer
+            {t("invoice.delete")}
           </Button>
         </div>
       </div>
@@ -178,15 +180,15 @@ export default function InvoiceDetailPage({
           <section className="overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-card ring-1 ring-slate-200 dark:ring-slate-800">
             <div className="border-b border-slate-100 dark:border-slate-800 px-5 py-4 sm:px-6">
               <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                Détail de la facture
+                {t("invoice.detail")}
               </h2>
             </div>
 
             <div className="hidden grid-cols-12 gap-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 md:grid">
-              <div className="col-span-5">Description</div>
-              <div className="col-span-2">Quantité</div>
-              <div className="col-span-2">Prix unitaire</div>
-              <div className="col-span-3 text-right">Total</div>
+              <div className="col-span-5">{t("invoice.description")}</div>
+              <div className="col-span-2">{t("invoice.quantity")}</div>
+              <div className="col-span-2">{t("invoice.unitPrice")}</div>
+              <div className="col-span-3 text-right">{t("invoice.lineTotal")}</div>
             </div>
 
             <ul className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -201,14 +203,14 @@ export default function InvoiceDetailPage({
                     </p>
                   </div>
                   <div className="md:col-span-2">
-                    <p className="text-xs text-slate-400 dark:text-slate-500 md:hidden">Quantité</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 md:hidden">{t("invoice.quantity")}</p>
                     <p className="text-sm text-slate-600 dark:text-slate-400">
                       {formatQuantity(line.quantity)}
                     </p>
                   </div>
                   <div className="md:col-span-2">
                     <p className="text-xs text-slate-400 dark:text-slate-500 md:hidden">
-                      Prix unitaire
+                      {t("invoice.unitPrice")}
                     </p>
                     <p className="text-sm text-slate-600 dark:text-slate-400">
                       {formatMoney(line.unitPrice, company.currency)}
@@ -229,28 +231,28 @@ export default function InvoiceDetailPage({
             <div className="flex justify-end border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 px-6 py-4">
               <dl className="w-full max-w-xs space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-slate-500 dark:text-slate-400">Sous-total</dt>
+                  <dt className="text-slate-500 dark:text-slate-400">{t("invoice.subtotal")}</dt>
                   <dd className="font-medium text-slate-800 dark:text-slate-200">
                     {formatMoney(invoice.subtotal, company.currency)}
                   </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-slate-500 dark:text-slate-400">
-                    TVA ({invoice.vatRate}%)
+                    {t("invoice.vat")} ({invoice.vatRate}%)
                   </dt>
                   <dd className="font-medium text-slate-800 dark:text-slate-200">
                     {formatMoney(invoice.vatAmount, company.currency)}
                   </dd>
                 </div>
                 <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-2 text-base">
-                  <dt className="font-semibold text-slate-900 dark:text-slate-100">Total TTC</dt>
+                  <dt className="font-semibold text-slate-900 dark:text-slate-100">{t("invoice.total")}</dt>
                   <dd className="font-bold text-slate-900 dark:text-slate-100">
                     {formatMoney(invoice.total, company.currency)}
                   </dd>
                 </div>
                 {invoice.amountPaid > 0 && (
                   <div className="flex justify-between text-emerald-700 dark:text-emerald-400">
-                    <dt>Encaissé</dt>
+                    <dt>{t("invoice.amountPaid")}</dt>
                     <dd className="font-semibold">
                       {formatMoney(invoice.amountPaid, company.currency)}
                     </dd>
@@ -258,7 +260,7 @@ export default function InvoiceDetailPage({
                 )}
                 {remaining > 0 && (
                   <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                    <dt>Reste dû</dt>
+                    <dt>{t("invoice.remaining")}</dt>
                     <dd className="font-semibold">
                       {formatMoney(remaining, company.currency)}
                     </dd>
@@ -270,7 +272,7 @@ export default function InvoiceDetailPage({
 
           {invoice.notes && (
             <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
-              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Notes</h2>
+              <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">{t("invoice.notes")}</h2>
               <p className="mt-2 whitespace-pre-line text-sm text-slate-600 dark:text-slate-400">
                 {invoice.notes}
               </p>
@@ -309,7 +311,7 @@ export default function InvoiceDetailPage({
 
           {/* Client */}
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Client</h2>
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">{t("invoice.clientInfo")}</h2>
             <div className="mt-3 space-y-2.5 text-sm">
               <p className="font-semibold text-slate-900 dark:text-slate-100">{client.name}</p>
               {client.email && (
@@ -338,13 +340,13 @@ export default function InvoiceDetailPage({
             <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Échéances</h2>
             <div className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Date d&apos;émission</span>
+                <span className="text-slate-500 dark:text-slate-400">{t("invoice.issueDate")}</span>
                 <span className="font-medium text-slate-800 dark:text-slate-200">
                   {formatDate(invoice.issueDate, company.dateFormat)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Date d&apos;échéance</span>
+                <span className="text-slate-500 dark:text-slate-400">{t("invoice.dueDate")}</span>
                 <span className="font-medium text-slate-800 dark:text-slate-200">
                   {formatDate(invoice.dueDate, company.dateFormat)}
                 </span>
@@ -361,7 +363,7 @@ export default function InvoiceDetailPage({
 
           {/* Paiement */}
           <section className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800 sm:p-6">
-            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">Paiement</h2>
+            <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">{t("invoice.paymentMethod")}</h2>
             <div className="mt-3 flex items-center gap-2 text-sm">
               <Banknote className="size-4 text-slate-400 dark:text-slate-500" aria-hidden="true" />
               <span className="font-semibold text-slate-800 dark:text-slate-200">
@@ -412,12 +414,9 @@ export default function InvoiceDetailPage({
       {/* Confirmation suppression */}
       <ConfirmDialog
         open={confirmDelete}
-        title="Supprimer cette facture ?"
-        description={`La facture ${invoice.number} (${formatMoney(
-          invoice.total,
-          company.currency,
-        )}) sera définitivement supprimée. Cette action est irréversible.`}
-        confirmLabel="Supprimer"
+        title={t("confirmDelete.title")}
+        description={t("confirmDelete.desc", { number: invoice.number, amount: formatMoney(invoice.total, company.currency) })}
+        confirmLabel={t("confirmDelete.confirm")}
         onConfirm={handleDelete}
         onClose={() => setConfirmDelete(false)}
       />
@@ -426,15 +425,12 @@ export default function InvoiceDetailPage({
       <Modal
         open={paymentOpen}
         onClose={() => setPaymentOpen(false)}
-        title="Encaisser un paiement"
-        description={`Facture ${invoice.number} — reste dû ${formatMoney(
-          remaining,
-          company.currency,
-        )}.`}
+        title={t("payment.title")}
+        description={`Facture ${invoice.number} — reste dû ${formatMoney(remaining, company.currency)}.`}
       >
         <div className="space-y-4">
           <div>
-            <Label htmlFor="payment-amount">Montant reçu</Label>
+            <Label htmlFor="payment-amount">{t("payment.amount")}</Label>
             <Input
               id="payment-amount"
               type="number"
@@ -455,21 +451,21 @@ export default function InvoiceDetailPage({
               variant="secondary"
               onClick={() => setPaymentAmount(String(remaining))}
             >
-              Reste dû
+              {t("invoice.remaining")}
             </Button>
             <Button
               variant="secondary"
               onClick={() => setPaymentAmount(String(invoice.total))}
             >
-              Total de la facture
+              {t("invoice.total")}
             </Button>
           </div>
           <div className="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800 pt-4">
             <Button variant="ghost" onClick={() => setPaymentOpen(false)}>
-              Annuler
+              {t("payment.cancel")}
             </Button>
             <Button onClick={handlePayment} disabled={paymentSaving}>
-              {paymentSaving ? "Enregistrement…" : "Enregistrer le paiement"}
+              {paymentSaving ? t("payment.saving") : t("payment.save")}
             </Button>
           </div>
         </div>
