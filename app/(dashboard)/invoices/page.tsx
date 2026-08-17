@@ -68,7 +68,7 @@ function InvoicesContent() {
     <div className="space-y-6">
       {/* En-tête */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl">
           {t("invoices.title")}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
