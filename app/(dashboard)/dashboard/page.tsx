@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { useTranslation } from "@/lib/i18n";
 import { formatMoney } from "@/lib/format";
 import { StatCard } from "@/components/ui/StatCard";
+import { StatCardSkeleton, ChartSkeleton } from "@/components/ui/Skeleton";
 import { RevenueChart } from "@/components/dashboard/RevenueChart";
 import { CollectionCard } from "@/components/dashboard/CollectionCard";
 import { RecentInvoices } from "@/components/dashboard/RecentInvoices";
@@ -16,7 +17,7 @@ function monthKey(dateStr: string): string {
 
 export default function DashboardPage() {
   const { t } = useTranslation();
-  const { invoices, company, user } = useStore();
+  const { invoices, company, user, ready, loadError, retryLoad } = useStore();
   const stats = computeStats(invoices);
   const currency = company.currency;
 
@@ -44,6 +45,40 @@ export default function DashboardPage() {
   const trendCollected = trendFor((inv) => inv.status === "paid");
   const trendPending = trendFor((inv) => inv.status === "sent" || inv.status === "draft");
   const trendOverdue = trendFor((inv) => inv.status === "overdue");
+
+  if (!ready) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <div className="h-8 w-64 animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
+          <div className="mt-2 h-4 w-48 animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)}
+        </div>
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+          <div className="xl:col-span-2"><ChartSkeleton /></div>
+          <div className="rounded-2xl bg-white dark:bg-slate-900 p-5 shadow-card ring-1 ring-slate-200 dark:ring-slate-800">
+            <div className="h-5 w-36 animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
+            <div className="mt-4 space-y-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="h-3 w-full animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <p className="text-sm text-red-600 dark:text-red-400">{loadError}</p>
+        <button onClick={retryLoad} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">{t("common.retry")}</button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

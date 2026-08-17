@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Modal } from "@/components/ui/Modal";
 import { FieldError, Input, Label, Textarea } from "@/components/ui/Fields";
 import { useTranslation } from "@/lib/i18n";
+import { TableSkeleton } from "@/components/ui/Skeleton";
 
 const clientSchema = z.object({
   name: z.string().trim().min(1, "Le nom est requis"),
@@ -46,7 +47,7 @@ interface ClientFormState {
 const EMPTY_FORM: ClientFormState = { name: "", email: "", phone: "", address: "" };
 
 export default function ClientsPage() {
-  const { clients, invoices, company, createClient, updateClient, deleteClient } =
+  const { clients, invoices, company, ready, createClient, updateClient, deleteClient } =
     useStore();
   const { t } = useTranslation();
 
@@ -168,7 +169,11 @@ export default function ClientsPage() {
         </Button>
       </div>
 
-      {blockedMessage && (
+      {!ready ? (
+        <TableSkeleton rows={5} cols={4} />
+      ) : (
+        <>
+          {blockedMessage && (
         <div className="flex items-start gap-2.5 rounded-xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
           {blockedMessage}
@@ -310,6 +315,8 @@ export default function ClientsPage() {
             </table>
           </div>
         </div>
+      )}
+        </>
       )}
 
       {/* Modal ajouter / modifier */}

@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Fields";
 import { Modal } from "@/components/ui/Modal";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { InvoiceDetailSkeleton } from "@/components/ui/Skeleton";
 
 export default function InvoiceDetailPage({
   params,
@@ -36,6 +37,7 @@ export default function InvoiceDetailPage({
     invoices,
     clients,
     company,
+    ready,
     setInvoiceStatus,
     recordPayment,
     deleteInvoice,
@@ -49,6 +51,8 @@ export default function InvoiceDetailPage({
 
   const invoice = invoices.find((inv) => inv.id === params.id);
   const client = clients.find((c) => c.id === invoice?.client.id);
+
+  if (!ready) return <InvoiceDetailSkeleton />;
 
   if (!invoice || !client) {
     return (
