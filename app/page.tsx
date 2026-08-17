@@ -304,13 +304,6 @@ export default function LandingPage() {
             >
               {t("landing.pricing.title")}
             </a>
-            <button
-              onClick={toggleLang}
-              className="rounded-lg p-2 text-slate-500 dark:text-slate-500 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
-              aria-label="Toggle language"
-            >
-              <Globe className="size-4" />
-            </button>
           </div>
 
           <div className="flex items-center gap-3 sm:gap-3">
@@ -320,11 +313,19 @@ export default function LandingPage() {
             >
               {t("landing.nav.login")}
             </Link>
+            <button
+              onClick={toggleLang}
+              className="rounded-lg p-2 text-slate-500 dark:text-slate-500 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 md:inline-flex"
+              aria-label="Toggle language"
+            >
+              <Globe className="size-4" />
+            </button>
             <Link
               href="/signup"
               className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-emerald-600/25 transition-all hover:-translate-y-0.5 hover:bg-emerald-500 hover:shadow-emerald-500/30 active:scale-[0.97] sm:px-5 sm:py-2.5 sm:text-sm"
             >
-              {t("landing.nav.start")}
+              <span className="sm:hidden">{t("landing.nav.startShort")}</span>
+              <span className="hidden sm:inline">{t("landing.nav.start")}</span>
             </Link>
             <button
               className="p-2 text-slate-600 dark:text-slate-400 sm:hidden"
